@@ -1,0 +1,237 @@
+{
+ "at": "2026-11-10T06:35:13.718Z",
+ "model": "qwen2.5:7b",
+ "request": "the same as tools/raw.mjs",
+ "empty": 25,
+ "errors": {
+  "prediction aborted, token repeat limit reached": 21,
+  "no error": 4
+ },
+ "probes": [
+  {
+   "id": "held-1",
+   "status": 500,
+   "error": "prediction aborted, token repeat limit reached",
+   "doneReason": null,
+   "evalCount": null,
+   "responseChars": null,
+   "seconds": 110
+  },
+  {
+   "id": "held-8",
+   "status": 200,
+   "error": null,
+   "doneReason": "stop",
+   "evalCount": 182,
+   "responseChars": 520,
+   "seconds": 107
+  },
+  {
+   "id": "held-10",
+   "status": 500,
+   "error": "prediction aborted, token repeat limit reached",
+   "doneReason": null,
+   "evalCount": null,
+   "responseChars": null,
+   "seconds": 126
+  },
+  {
+   "id": "held-12",
+   "status": 500,
+   "error": "prediction aborted, token repeat limit reached",
+   "doneReason": null,
+   "evalCount": null,
+   "responseChars": null,
+   "seconds": 119
+  },
+  {
+   "id": "held-16",
+   "status": 500,
+   "error": "prediction aborted, token repeat limit reached",
+   "doneReason": null,
+   "evalCount": null,
+   "responseChars": null,
+   "seconds": 124
+  },
+  {
+   "id": "held-18",
+   "status": 500,
+   "error": "prediction aborted, token repeat limit reached",
+   "doneReason": null,
+   "evalCount": null,
+   "responseChars": null,
+   "seconds": 136
+  },
+  {
+   "id": "held-25",
+   "status": 500,
+   "error": "prediction aborted, token repeat limit reached",
+   "doneReason": null,
+   "evalCount": null,
+   "responseChars": null,
+   "seconds": 85
+  },
+  {
+   "id": "held-28",
+   "status": 500,
+   "error": "prediction aborted, token repeat limit reached",
+   "doneReason": null,
+   "evalCount": null,
+   "responseChars": null,
+   "seconds": 86
+  },
+  {
+   "id": "held-32",
+   "status": 500,
+   "error": "prediction aborted, token repeat limit reached",
+   "doneReason": null,
+   "evalCount": null,
+   "responseChars": null,
+   "seconds": 81
+  },
+  {
+   "id": "held-37",
+   "status": 500,
+   "error": "prediction aborted, token repeat limit reached",
+   "doneReason": null,
+   "evalCount": null,
+   "responseChars": null,
+   "seconds": 129
+  },
+  {
+   "id": "held-38",
+   "status": 500,
+   "error": "prediction aborted, token repeat limit reached",
+   "doneReason": null,
+   "evalCount": null,
+   "responseChars": null,
+   "seconds": 157
+  },
+  {
+   "id": "held-41",
+   "status": 200,
+   "error": null,
+   "doneReason": "stop",
+   "evalCount": 194,
+   "responseChars": 517,
+   "seconds": 96
+  },
+  {
+   "id": "held-47",
+   "status": 500,
+   "error": "prediction aborted, token repeat limit reached",
+   "doneReason": null,
+   "evalCount": null,
+   "responseChars": null,
+   "seconds": 144
+  },
+  {
+   "id": "held-48",
+   "status": 500,
+   "error": "prediction aborted, token repeat limit reached",
+   "doneReason": null,
+   "evalCount": null,
+   "responseChars": null,
+   "seconds": 135
+  },
+  {
+   "id": "held-51",
+   "status": 200,
+   "error": null,
+   "doneReason": "stop",
+   "evalCount": 156,
+   "responseChars": 414,
+   "seconds": 92
+  },
+  {
+   "id": "held-54",
+   "status": 200,
+   "error": null,
+   "doneReason": "stop",
+   "evalCount": 154,
+   "responseChars": 403,
+   "seconds": 885
+  },
+  {
+   "id": "held-58",
+   "status": 500,
+   "error": "prediction aborted, token repeat limit reached",
+   "doneReason": null,
+   "evalCount": null,
+   "responseChars": null,
+   "seconds": 968
+  },
+  {
+   "id": "held-63",
+   "status": 500,
+   "error": "prediction aborted, token repeat limit reached",
+   "doneReason": null,
+   "evalCount": null,
+   "responseChars": null,
+   "seconds": 1052
+  },
+  {
+   "id": "held-65",
+   "status": 500,
+   "error": "prediction aborted, token repeat limit reached",
+   "doneReason": null,
+   "evalCount": null,
+   "responseChars": null,
+   "seconds": 131
+  },
+  {
+   "id": "held-68",
+   "status": 500,
+   "error": "prediction aborted, token repeat limit reached",
+   "doneReason": null,
+   "evalCount": null,
+   "responseChars": null,
+   "seconds": 153
+  },
+  {
+   "id": "held-70",
+   "status": 500,
+   "error": "prediction aborted, token repeat limit reached",
+   "doneReason": null,
+   "evalCount": null,
+   "responseChars": null,
+   "seconds": 128
+  },
+  {
+   "id": "held-71",
+   "status": 500,
+   "error": "prediction aborted, token repeat limit reached",
+   "doneReason": null,
+   "evalCount": null,
+   "responseChars": null,
+   "seconds": 150
+  },
+  {
+   "id": "held-73",
+   "status": 500,
+   "error": "prediction aborted, token repeat limit reached",
+   "doneReason": null,
+   "evalCount": null,
+   "responseChars": null,
+   "seconds": 167
+  },
+  {
+   "id": "held-76",
+   "status": 500,
+   "error": "prediction aborted, token repeat limit reached",
+   "doneReason": null,
+   "evalCount": null,
+   "responseChars": null,
+   "seconds": 128
+  },
+  {
+   "id": "held-79",
+   "status": 500,
+   "error": "prediction aborted, token repeat limit reached",
+   "doneReason": null,
+   "evalCount": null,
+   "responseChars": null,
+   "seconds": 126
+  }
+ ]
+}

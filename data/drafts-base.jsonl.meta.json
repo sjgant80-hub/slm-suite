@@ -1,0 +1,12 @@
+{
+ "base": "Qwen/Qwen2.5-0.5B-Instruct",
+ "adapter": "none",
+ "promptField": "basePrompt",
+ "adapterSha256": null,
+ "device": "cpu",
+ "decoding": "greedy",
+ "maxNewTokens": 160,
+ "networkDisabled": true,
+ "blockedConnects": 0,
+ "seconds": 1652
+}

@@ -76,7 +76,7 @@ footer p+p{margin-top:6px}
 </nav>
 <header class="hero">
   <h1>A legal associate that shows its reasoning and never invents the law.</h1>
-  <p class="lede">The first of a suite of industry models built the Konomi way. A small model, trained on this laptop, reads a consumer's complaint. A verified library of real UK legislation works out the rights, the remedy and the deadlines. A gate lets nothing through that the library didn't give, and says so when a fact is missing. A qualified human reviews every word.</p>
+  <p class="lede">The first of a suite of industry models built the Konomi way. A small model, trained on this laptop, reads a consumer's complaint. A verified library of real UK legislation works out the rights, the remedy and the deadlines. A gate lets nothing through that the library didn't give, and abstains when the model reports a critical fact missing. A qualified human reviews every word, and must: the small model's reading of the facts is the weak link, as the result below shows.</p>
   <p class="verdictline" id="verdictline">Loading the record…</p>
 </header>
 <main>
@@ -85,6 +85,7 @@ footer p+p{margin-top:6px}
   <p class="muted">Each claim was written down with its bar before any code (<a href="CLAIMS.md">CLAIMS.md</a>). The model, the data and the code were frozen by hash before any model read a held-out complaint (<a href="SEAL2.md">SEAL2.md</a>). A claim that misses its bar is kept and shown as failed. Every number is read from the committed record.</p>
   <div class="tablewrap"><table id="claims"><thead><tr><th>Claim</th><th>What it says</th><th>Measured</th><th>Bar</th><th>Verdict</th></tr></thead><tbody></tbody></table></div>
   <div class="tablewrap"><table id="three"><thead><tr><th>On the held-out complaints</th><th>The tuned 0.5B, inside the stack</th><th>The same model untuned, inside the stack</th><th>qwen2.5:7b on its own</th></tr></thead><tbody></tbody></table></div>
+  <p id="raw-empty" class="muted">…</p>
   <h3>What the result says</h3>
   <p id="lesson">…</p>
 </section>
@@ -130,7 +131,7 @@ footer p+p{margin-top:6px}
     <tr><td><b>SLM</b></td><td>A small language model: here Qwen2.5 with half a billion parameters, small enough to train and run on a laptop.</td></tr>
     <tr><td><b>LoRA, adapter</b></td><td>A way to train a model by adding a small set of new weights (the adapter) instead of changing the whole model. The adapter is a single file of a few tens of megabytes.</td></tr>
     <tr><td><b>Verified library</b></td><td>The associate's reasoning: rules written from the actual legislation, each checked against legislation.gov.uk, that compute the rights, the remedy and every deadline date.</td></tr>
-    <tr><td><b>The gate</b></td><td>The check between the model and the memo. Nothing reaches the memo unless the library gave it. If a critical fact is missing, the associate abstains and says what it needs.</td></tr>
+    <tr><td><b>The gate</b></td><td>The check between the model and the memo. Nothing reaches the memo unless the library gave it. If the model reports a critical fact missing, the associate abstains and says what it needs. If the model reads a fact that is not there, the gate cannot tell; the human review is what catches it.</td></tr>
     <tr><td><b>Abstain</b></td><td>Decline to answer, and say why. Better than a confident guess.</td></tr>
     <tr><td><b>Held-out</b></td><td>Complaints kept aside, written in different words from the training ones, and read once after everything was frozen.</td></tr>
     <tr><td><b>Section 75</b></td><td>Consumer Credit Act 1974, s. 75: when a single item costing over one hundred pounds and up to thirty thousand pounds is paid for by credit card, the card issuer can be liable too. A classic angle that gets missed.</td></tr>
@@ -196,7 +197,7 @@ footer p+p{margin-top:6px}
     <li>Freeze it, then judge it once on held-out intakes against your current first screen. The fee is due only if it beat it.</li>
     <li>Run it beside your team, deciding nothing, until the reviewers trust it on what it does.</li>
   </ol>
-  <p class="muted">What it runs on: a laptop CPU, as here. Training the adapter took a couple of hours; each memo takes seconds. No GPU, no cloud service.</p>
+  <p class="muted">What it runs on: a laptop CPU, as here. Training the adapter took <span id="t-train">…</span>; drafting one memo took about <span id="t-memo">…</span> on the same CPU, which other work shared for part of the run. No GPU, no cloud service.</p>
 </section>
 <section id="paper">
   <h2>White paper: let the small model read and the law reason</h2>
@@ -239,6 +240,7 @@ footer p+p{margin-top:6px}
     <tr><td><b>What happens when the client leaves out a date?</b></td><td id="faq-abstain">Loading…</td></tr>
     <tr><td><b>Is this legal advice?</b></td><td>No. It assists a qualified human, who reviews it and owns any use of it. It does not advise, decide, file or send.</td></tr>
     <tr><td><b>Does client data leave our machines?</b></td><td>No. Training and inference run on your hardware, and inference runs with the network disabled. This page loads only its own files.</td></tr>
+    <tr><td><b>Was the bigger model given a fair go?</b></td><td id="faq-fair">Loading…</td></tr>
     <tr><td><b>What failed?</b></td><td id="faq-failed">Loading…</td></tr>
     <tr><td><b>Who has used it on real matters?</b></td><td>No one yet: this is the showcase. A client build retrains the adapter on that firm's own intakes, with consent, and is judged on their held-out set before anyone relies on it.</td></tr>
   </table></div>

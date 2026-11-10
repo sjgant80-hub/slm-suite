@@ -1,0 +1,12 @@
+{
+ "base": "Qwen/Qwen2.5-0.5B-Instruct",
+ "adapter": "adapter/legal",
+ "promptField": "prompt",
+ "adapterSha256": "f81683b550b2f24a285ecef6fa8db1b21de5c5b691e31b1074386eb4fc3c0cc5",
+ "device": "cpu",
+ "decoding": "greedy",
+ "maxNewTokens": 160,
+ "networkDisabled": true,
+ "blockedConnects": 0,
+ "seconds": 2271
+}

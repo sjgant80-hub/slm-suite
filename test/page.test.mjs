@@ -55,3 +55,16 @@ test('the page explains itself, keeps the human contract, talks only to itself, 
   assert.equal(/my-estate-graph/.test(html + app), false);
   for (const f of ['CLAIMS.md', 'SEAL2.md', 'LICENSE', 'NOTICE', 'verticals/legal/law.json']) assert.ok(existsSync(new URL(f, ROOT)), f);
 });
+
+test('the raw model\'s empty answers: the probe re-asked exactly the empty ones, and the page reads it', () => {
+  const app = readFileSync(new URL('app.mjs', ROOT), 'utf8');
+  assert.match(app, /json\('data\/raw-probe\.json'\)/);
+  assert.match(app, /PROBE\.empty === empties\.length/, 'the reason is shown only when the probe covers every empty answer');
+  if (!existsSync(new URL('data/drafts-raw.jsonl', ROOT))) return;
+  const empty = readFileSync(new URL('data/drafts-raw.jsonl', ROOT), 'utf8').trim().split('\n').map((l) => JSON.parse(l)).filter((d) => d.output === '').map((d) => d.id);
+  if (!empty.length) return;
+  const probe = JSON.parse(readFileSync(new URL('data/raw-probe.json', ROOT), 'utf8'));
+  assert.equal(probe.empty, empty.length);
+  assert.deepEqual(probe.probes.map((p) => p.id), empty);
+  assert.equal(Object.values(probe.errors).reduce((a, b) => a + b, 0), empty.length);
+});

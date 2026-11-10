@@ -14,7 +14,7 @@ const json = (p) => fetch(p).then((r) => (r.ok ? r.json() : null)).catch(() => n
 const lines = (p) => fetch(p).then((r) => (r.ok ? r.text() : '')).then((t) => t.trim().split('\n').filter(Boolean).map((l) => JSON.parse(l))).catch(() => []);
 const pct = (a, n) => (n ? Math.round((1000 * a) / n) / 10 + '%' : '—');
 const chip = (pass) => el('span', { class: 'chip ' + (pass ? 'win' : 'bad') }, pass ? 'HELD' : 'FAILED');
-let REC = null, LAW = [], HELD = [], DRAFT = {}, RAW = {}, BASIS = null, K = 0;
+let REC = null, LAW = [], HELD = [], DRAFT = {}, RAW = {}, BASIS = null, PROBE = null, K = 0;
 const ctx = () => ({ today: null, schema: V.SCHEMA, answer: L.answer, table: LAW });
 
 function fill() {
@@ -28,10 +28,27 @@ function fill() {
     row('exactly right, or rightly abstained', pct(r.correct.stack, r.n), pct(r.correct.baseStack, r.n), pct(r.correct.raw, r.n)),
     row('every fact read exactly right', pct(r.facts.tuned, r.n), pct(r.facts.base, r.n), '—'),
     row('provisions cited that no verified rule gave', String(r.invented.stack), '—', r.invented.rawNotApplicable + ' verified but not applicable, ' + r.invented.rawOutsideTable + ' outside the table'));
-  $('lesson').textContent = 'The trained 0.5B read every fact right on ' + pct(r.facts.tuned, r.n) + ' of the complaints; the same model untrained, even told the exact keys, managed ' + pct(r.facts.base, r.n) + '. Inside the stack that became ' + pct(r.correct.stack, r.n) + ' exactly right or rightly abstained, against ' + pct(r.correct.raw, r.n) + ' for a model fourteen times its size answering on its own. The associate cited nothing the library did not give (' + r.invented.stack + '), abstained on ' + r.abstain.abstainedOnIncomplete + ' of the ' + r.abstain.incomplete + ' complaints missing a critical fact, and proposed section 75 on ' + r.s75.proposedWhereApplies + ' of the ' + r.s75.applies + ' where it applies.';
+  $('lesson').textContent = 'The trained 0.5B read every fact right on ' + pct(r.facts.tuned, r.n) + ' of the complaints; the same model untrained, even told the exact keys, managed ' + pct(r.facts.base, r.n) + '. Inside the stack that became ' + pct(r.correct.stack, r.n) + ' exactly right or rightly abstained, against ' + pct(r.correct.raw, r.n) + ' for a model fourteen times its size answering on its own. The associate cited nothing the library did not give (' + r.invented.stack + '), abstained on ' + r.abstain.abstainedOnIncomplete + ' of the ' + r.abstain.incomplete + ' complaints missing a critical fact (and on ' + r.abstain.abstainedOnComplete + ' of the ' + r.abstain.complete + ' complete ones), and proposed section 75 on ' + r.s75.proposedWhereApplies + ' of the ' + r.s75.applies + ' where it applies and on ' + r.s75.proposedWhereNot + ' where it does not.' + (failed.length ? ' Said straight: ' + failed.map((x) => x.id + ' missed its bar (' + x.bar + '; measured ' + show(x) + ')').join('; ') + '. Those failures stay on the record. A reader of this associate’s memo still checks the facts it read, which is what the review label on every memo is for.' : '');
   $('results').replaceChildren(...v.map((x) => el('li', {}, x.id + ' (' + (x.pass ? 'held' : 'failed') + '): ' + x.what + ': ' + show(x) + '.')));
   $('faq-invent').textContent = 'It cites only provisions in its verified table, and only those the library says apply. On the held-out set it cited ' + r.invented.stack + ' provisions or dates the library did not give. The bigger model on its own cited ' + r.invented.rawNotApplicable + ' verified provisions that did not apply, and ' + r.invented.rawOutsideTable + ' from outside the table.';
   $('faq-abstain').textContent = 'It abstains and names the missing fact. On the held-out set it abstained on ' + r.abstain.abstainedOnIncomplete + ' of the ' + r.abstain.incomplete + ' complaints missing a critical fact, and on ' + r.abstain.abstainedOnComplete + ' of the ' + r.abstain.complete + ' complete ones.';
+  // the raw model's empty answers: counted from the committed drafts, explained by the probe receipt, never typed in
+  const rawIds = Object.keys(RAW), empties = rawIds.filter((id) => RAW[id] === ''), gave = REC.cases.raw.filter((c) => RAW[c.id] !== '');
+  // the probe re-asked exactly the empty ones (the page test checks that); count what Ollama said back, never type it
+  const covered = !!PROBE && PROBE.empty === empties.length;
+  const aborted = covered ? PROBE.probes.filter((p) => /token repeat limit/.test(p.error || '')).length : 0;
+  const answered = covered ? PROBE.probes.filter((p) => p.status === 200 && p.responseChars > 0).length : 0;
+  const otherwise = covered ? PROBE.empty - aborted - answered : 0;
+  const rightRaw = gave.filter((c) => c.correct).length;
+  const why = !covered ? 'the reason is not yet recorded.'
+    : (aborted ? aborted + ' were stopped by Ollama again (“prediction aborted, token repeat limit reached”: the model kept repeating the same token inside its JSON answer)' : '')
+      + (answered ? (aborted ? ', and ' : '') + answered + ' answered normally this time, so on a machine other jobs were sharing, the stop does not repeat every time' : '')
+      + (otherwise ? (aborted || answered ? ', and ' : '') + otherwise + ' failed some other way (see raw-probe.json)' : '') + '.';
+  $('raw-empty').textContent = empties.length
+    ? 'Of qwen2.5:7b’s ' + rawIds.length + ' answers, ' + empties.length + ' came back empty. Asked again with byte-for-byte the same request, ' + why + ' The sealed rule scores the answers it recorded, so an empty answer counts as wrong. On the ' + gave.length + ' complaints where it did answer, it was exactly right or rightly abstained on ' + rightRaw + '.'
+      + (answered ? ' Even if all ' + answered + ' re-asked answers had been right, it would have reached ' + pct(REC.record.correct.raw + answered, REC.record.n) + ', against the associate’s ' + pct(REC.record.correct.stack, REC.record.n) + '.' : '')
+    : 'qwen2.5:7b answered all ' + rawIds.length + ' complaints.';
+  $('faq-fair').textContent = 'It was asked the same complaint, on the same laptop, at temperature 0, with the exact list of claim types and remedies to choose from, the option to say "cannot-tell", and the dates it had to give. It had no library and no gate: that is the point of the comparison. ' + (empties.length ? empties.length + ' of its answers came back empty' + (aborted ? ', most because Ollama stopped it repeating itself' : '') + '; on the ' + gave.length + ' it did give, it was exactly right on ' + rightRaw + '. The note under the results table says what happened when the empty ones were asked again.' : 'It answered every complaint.');
   $('faq-failed').textContent = failed.length ? failed.map((x) => x.id + ': ' + x.what + ', measured ' + show(x) + '.').join(' ') + ' Each failure is kept on the record and on this page.' : 'Nothing measured failed its bar on this run. The limits are listed in the white paper.';
   $('parts').replaceChildren(...[['stack/gate.mjs', 'The gate: reads the model\'s facts against the schema, withholds a summary that cites law or dates, abstains on a missing fact.'], ['stack/memo.mjs', 'The memo and the human contract: the review label on every output, angles as proposals.'], ['stack/score.mjs', 'The evaluation: one rule for the stack and the raw model, the paired bootstrap, every claim on whole counts.'], ['verticals/legal/library.mjs', 'The verified library: the claim, the provisions, the remedy and every deadline date, from the legislation.'], ['verticals/legal/law.json', 'The verified table: 14 provisions, each with its legislation.gov.uk address, under the OGL.'], ['adapter/legal/', 'The trained LoRA adapter, with the base model\'s Apache-2.0 licence.']]
     .map(([h, t]) => el('div', { class: 'card' }, el('div', { class: 'k' }, h), el('p', { style: 'font-size:14.5px;margin-top:4px' }, t))));
@@ -49,7 +66,7 @@ function watch() {
   const s = SC.stackCase(h, out, { schema: V.SCHEMA, factKeys: V.FACT_KEYS, answer: L.answer, table: LAW, patterns: V.PATTERNS, words: V.WORDS, render: M.render, label: M.LABEL, proposal: M.PROPOSAL, angle: 'cca-s75' });
   $('w-verdict').replaceChildren(el('span', { class: 'chip ' + (s.correct ? 'win' : 'bad') }, s.correct ? 'RIGHT' : 'WRONG'), ' against the truth this complaint was written from' + (s.truthAbstains ? ' (a critical fact is missing from it)' : '') + '.');
   const rawOut = RAW[h.id] || '', o = G.firstObject(rawOut);
-  $('w-raw').textContent = o ? JSON.stringify(o, null, 1) : rawOut || '(no answer recorded)';
+  $('w-raw').textContent = o ? JSON.stringify(o, null, 1) : rawOut || (h.id in RAW ? '(empty: see the note under the results table)' : '(no answer recorded)');
   const rc = SC.rawCase(h, rawOut, { answer: L.answer, patterns: V.PATTERNS });
   $('w-rawcheck').replaceChildren(el('span', { class: 'chip ' + (rc.correct ? 'win' : 'bad') }, rc.correct ? 'RIGHT' : 'WRONG'), ' · ' + rc.notApplicable + ' verified provisions cited that do not apply · ' + rc.outsideTable + ' citations outside the verified table.');
 }
@@ -94,6 +111,12 @@ async function main() {
     $('w-next').onclick = () => { K = (K + 1) % HELD.length; watch(); };
     watch();
   }
+  // the timings, read from the training log and the inference receipt, never typed in
+  const [tlog, meta, probe] = await Promise.all([json('data/train-log.json'), json('data/drafts-tuned.jsonl.meta.json'), json('data/raw-probe.json')]);
+  PROBE = probe;
+  const dur = (s) => (s >= 3600 ? Math.floor(s / 3600) + ' h ' + Math.round((s % 3600) / 60) + ' min' : s >= 90 ? Math.round(s / 60) + ' minutes' : Math.round(s) + ' seconds');
+  $('t-train').textContent = tlog && tlog.seconds ? dur(tlog.seconds) + ' (' + (tlog.steps ? tlog.steps.length : '?') + ' steps over ' + tlog.rows + ' complaints, ' + (tlog.config ? tlog.config.epochs : '?') + ' passes)' : '…';
+  $('t-memo').textContent = meta && meta.seconds && HELD.length ? dur(meta.seconds / HELD.length) + ' (' + HELD.length + ' memos in ' + dur(meta.seconds) + ')' : '…';
   if (!REC) { $('verdictline').textContent = 'The record did not load; reload the page.'; return; }
   fill();
 }
