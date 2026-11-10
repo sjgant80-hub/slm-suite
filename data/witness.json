@@ -1,0 +1,65 @@
+{
+ "witness": "v0.6 (sjgant80-hub/witness, tag v0.6)",
+ "command": "witness mutate <kernel> --timeout 60000 --cap 2000 --test node --test test/suite.test.mjs",
+ "ranOn": "2026-11-09, this laptop; CI re-runs every kernel on every push and must get these same counts",
+ "tests": {
+  "file": "test/suite.test.mjs",
+  "sha256": "67ec7ead1b00ad25eafbf0d564b3853556308e17132714b784d93ea3b8d56dc4"
+ },
+ "kernels": [
+  {
+   "name": "gate",
+   "file": "stack/gate.mjs",
+   "sha256": "d14c92fc7a9a684a8cbcdd73c35dd4f4a4d4010df92db6004c65360f4189f4bf",
+   "total": 34,
+   "killed": 34,
+   "ignored": 0,
+   "survived": 0
+  },
+  {
+   "name": "memo",
+   "file": "stack/memo.mjs",
+   "sha256": "b907ccd3ca5ca6d666eed741a80796987710b8241738410d6994a8b493959d87",
+   "total": 2,
+   "killed": 2,
+   "ignored": 0,
+   "survived": 0
+  },
+  {
+   "name": "score",
+   "file": "stack/score.mjs",
+   "sha256": "907460d10b7ea1c906c44a58fa71d66204049fe8716512090c79dc29fbde36bd",
+   "total": 55,
+   "killed": 55,
+   "ignored": 0,
+   "survived": 0
+  },
+  {
+   "name": "library",
+   "file": "verticals/legal/library.mjs",
+   "sha256": "20af78802a7d50e564a51ec9e197ac3d0bc4845fb8a84646a7ec3285b240fa7a",
+   "total": 18,
+   "killed": 18,
+   "ignored": 0,
+   "survived": 0
+  },
+  {
+   "name": "scenarios",
+   "file": "verticals/legal/scenarios.mjs",
+   "sha256": "6b561c372d3f4fc05fcf3ff37397b26080ef7cfc20bc7ac38c48221ff825cc98",
+   "total": 42,
+   "killed": 42,
+   "ignored": 0,
+   "survived": 0
+  },
+  {
+   "name": "vertical",
+   "file": "verticals/legal/vertical.mjs",
+   "sha256": "3536f9d43864efd88f881f3030d51e6cffc7a442d9c505ef7670737359a37a12",
+   "total": 1,
+   "killed": 1,
+   "ignored": 0,
+   "survived": 0
+  }
+ ]
+}

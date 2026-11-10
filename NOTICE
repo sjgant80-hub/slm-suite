@@ -1,0 +1,19 @@
+THE SLM SUITE — credits and provenance
+
+Law: verticals/legal/law.json contains public sector information licensed under the Open Government Licence v3.0
+(https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/). Each provision was read on
+legislation.gov.uk (the latest revised version) on 2026-11-09; the "says" lines are this repository's own paraphrase.
+No case law is used.
+
+Base model: Qwen2.5-0.5B-Instruct, the Qwen team (Alibaba Cloud), licensed Apache-2.0; its licence is shipped beside
+the adapter (adapter/legal/LICENSE-Qwen2.5). The base model's weights are not in this repository. adapter/legal/ is a
+LoRA adapter trained on top of it by this repository's tools/train.py.
+
+Data: every complaint is synthetic, written by verticals/legal/scenarios.mjs from structured facts. No client matter,
+no scraped text.
+
+vendor/liveware/: from sjgant80-hub/liveware at 48205c7 (the sourced cost case).
+
+Powered by the Konomi architecture, created by Thomas Frumkin.
+
+The code is MIT licensed (LICENSE).

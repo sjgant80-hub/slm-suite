@@ -16,12 +16,13 @@ export function stackCase(row, output, ctx) {
   const r = G.decide(output, { today: row.today, schema: ctx.schema, answer: ctx.answer, table: ctx.table });
   const factsExact = exactFacts(r.facts, row.facts, ctx.factKeys);
   const correct = truth.abstain ? r.abstain : !r.abstain && exactAnswer(r.answer, truth);
-  const ids = new Set(ctx.table.map((p) => p.id));
-  const own = r.abstain || !r.answer ? null : ctx.answer({ ...r.facts, today: row.today });
-  const invented = r.cites.filter((p) => !ids.has(p.id) || !own.rights.includes(p.id)).length + (own && !sameSet(dl(r.answer.deadlines), dl(own.deadlines)) ? 1 : 0);
+  // a guard on the stack itself: every provision and date in the memo must be what the library gives on the facts the
+  // gate read (true by construction, and counted, so that a regression in the stack would show)
+  const own = r.abstain ? null : ctx.answer({ ...r.facts, today: row.today });
+  const invented = own ? r.cites.filter((p) => !own.rights.includes(p.id)).length + (sameSet(dl(r.answer.deadlines), dl(own.deadlines)) ? 0 : 1) : 0;
   const memo = ctx.render(r, { words: ctx.words });
   return { id: row.id, truthAbstains: truth.abstain, read: r.facts !== null, factsExact, correct, abstained: r.abstain, invented,
-    s75True: !truth.abstain && truth.angles.includes('cca-s75'), s75Proposed: !r.abstain && r.answer.angles.includes('cca-s75') && memo.includes(ctx.proposal),
+    s75True: truth.angles.includes(ctx.angle), s75Proposed: memo.includes(ctx.proposal + ctx.words.angles[ctx.angle]),
     labelled: memo.split('\n').at(-1) === ctx.label };
 }
 
@@ -32,7 +33,7 @@ export function rawCase(row, output, ctx) {
   const cites = ok && Array.isArray(o.provisions) ? o.provisions.map(String) : [];
   const mapped = cites.map((c) => G.citeId(c, ctx.patterns)), inTable = [...new Set(mapped.filter((x) => x !== null))];
   const deadlines = ok && Array.isArray(o.deadlines) ? o.deadlines.filter((d) => d && typeof d === 'object').map((d) => ({ what: String(d.what), date: String(d.date) })) : [];
-  const said = ok ? { claim: o.claim === 'cannot-tell' ? truth.claim : o.claim, abstain: o.claim === 'cannot-tell', remedy: o.remedy ?? null, rights: inTable, deadlines } : null;
+  const said = ok ? { claim: o.claim, abstain: o.claim === 'cannot-tell', remedy: o.remedy ?? null, rights: inTable, deadlines } : null;
   const correct = truth.abstain ? !!(ok && o.claim === 'cannot-tell') : !!(said && !said.abstain && exactAnswer(said, truth));
   return { id: row.id, truthAbstains: truth.abstain, parsed: !!ok, correct, outsideTable: mapped.filter((x) => x === null).length, notApplicable: inTable.filter((id) => !truth.rights.includes(id)).length };
 }

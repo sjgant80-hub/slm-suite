@@ -227,9 +227,12 @@ test('the generator is pinned: the exact complaints the model was trained and ju
   const h = (x) => createHash('sha256').update(JSON.stringify(x)).digest('hex');
   assert.equal(h(S.make(360, 11, 'train', V.TODAY)), '31e98808323a9b536688c6cbb45662cee014956ebff4f4e07d9458d6c9d446ba');
   assert.equal(h(S.make(80, 23, 'held', V.TODAY)), '55e9c5114c7ca09f3a93d42cb41439ea16e8a57924eeafb590bf040e220594db');
+  // 3,000 more of each, so that every whole-percent threshold in the generator is hit at least once
+  assert.equal(h(S.make(3000, 101, 'train', V.TODAY)), '3dacb3f53a7a6cd82422739425417e9d764d985872d507c44a956aea342afc98');
+  assert.equal(h(S.make(3000, 202, 'held', V.TODAY)), '69140bd5a284a52aec4c3d2ec8a163c6d101a68c40e766d2a033f6db83f214ac');
 });
 
-const CTX = { schema: V.SCHEMA, factKeys: V.FACT_KEYS, answer: L.answer, table: LAW, patterns: V.PATTERNS, words: V.WORDS, render: M.render, label: M.LABEL, proposal: M.PROPOSAL };
+const CTX = { schema: V.SCHEMA, factKeys: V.FACT_KEYS, answer: L.answer, table: LAW, patterns: V.PATTERNS, words: V.WORDS, render: M.render, label: M.LABEL, proposal: M.PROPOSAL, angle: 'cca-s75' };
 const row = (o = {}, today = '2026-10-20') => ({ id: 'h-1', today, facts: { ...base, ...o }, summary: 'A laptop stopped working.' });
 const out = (f, summary = 'A laptop stopped working.') => V.slmTarget(f, summary);
 
@@ -260,6 +263,13 @@ test('score: the stack on one case: right, wrong, a guessed fact, unreadable, th
   const s75 = SC.stackCase(row(cc), out(cc), CTX);
   assert.deepEqual([s75.s75True, s75.s75Proposed], [true, true]);
   assert.deepEqual([SC.stackCase(row(cc), out(base), CTX).s75Proposed, SC.stackCase(row(base), out(cc), CTX).s75Proposed], [false, true]);
+  assert.equal(SC.stackCase(row({ ...cc, delivered: null }), out({ ...cc, delivered: null }), CTX).s75True, false, 'nothing applies to a case the library abstains on');
+  // the stack's own consistency guard: a library that answered differently the second time would be caught
+  const twice = (first, second) => { let n = 0; return (f) => { const a = L.answer(f); n++; return n === 2 ? { ...a, ...second } : n === 1 ? { ...a, ...first } : a; }; };
+  const t0 = L.answer({ ...base, today: '2026-10-20' });
+  assert.equal(SC.stackCase(row(), out(base), { ...CTX, answer: twice({}, { rights: [...t0.rights, 'cca-s75'] }) }).invented, 1, 'a provision in the memo that the library does not give on those facts');
+  assert.equal(SC.stackCase(row(), out(base), { ...CTX, answer: twice({}, { deadlines: [] }) }).invented, 1, 'a date the second answer does not give');
+  assert.equal(SC.stackCase(row(), out(base), { ...CTX, answer: twice({}, {}) }).invented, 0);
 });
 
 test('score: a raw model by the same rule; its citations sorted, never called invented when real but outside the table', () => {
@@ -272,6 +282,7 @@ test('score: a raw model by the same rule; its citations sorted, never called in
   const outside = SC.rawCase(row(), ans({ provisions: [...cites, 'Sale of Goods Act 1979 s14'] }), CTX);
   assert.deepEqual([outside.correct, outside.outsideTable], [true, 1]);
   assert.equal(SC.rawCase(row(), ans({ remedy: 'repair-or-replacement' }), CTX).correct, false);
+  assert.equal(SC.rawCase(row(), ans({ claim: 'service-poor' }), CTX).correct, false, 'the wrong claim type, all else right');
   assert.equal(SC.rawCase(row(), ans({ deadlines: [] }), CTX).correct, false);
   assert.equal(SC.rawCase(row(), ans({ deadlines: [{ what: 'reject-by', date: '2026-10-31' }, { what: 'limitation', date: '2032-10-01' }, 'junk'] }), CTX).correct, true);
   assert.equal(SC.rawCase(row(), ans({ claim: 'cannot-tell' }), CTX).correct, false, 'abstaining on a complete case is wrong');

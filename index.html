@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The SLM Suite · a legal associate</title>
+<meta name="description" content="Industry models the Konomi way. Vertical #1: a UK consumer-claim triage associate. A small model trained on a laptop reads; a verified library of real legislation reasons; a gate never invents the law and abstains when a fact is missing.">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; worker-src 'self'; base-uri 'none'; form-action 'none'">
+<style>
+:root{--bg:#f7f5f0;--panel:#ffffff;--ink:#1d1c1a;--muted:#6b665c;--line:rgba(29,28,26,.12);--accent:#3f6b47;--accent-dim:rgba(63,107,71,.10);--win:#2f7a3d;--tie:#a5701c;--bad:#b3452c;--px0:#ffffff;--px1:#1d1c1a;--mono:'JetBrains Mono','IBM Plex Mono',ui-monospace,monospace;--sans:'Inter',-apple-system,system-ui,sans-serif;--serif:'Cormorant Garamond','Iowan Old Style',Georgia,serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1a1a1e;--panel:#212127;--ink:#e8e4db;--muted:#928d80;--line:rgba(232,228,219,.12);--accent:#7a9c7e;--accent-dim:rgba(122,156,126,.14);--win:#7acc85;--tie:#d4a052;--bad:#d67a5a;--px0:#212127;--px1:#e8e4db}}
+:root[data-theme="dark"]{--bg:#1a1a1e;--panel:#212127;--ink:#e8e4db;--muted:#928d80;--line:rgba(232,228,219,.12);--accent:#7a9c7e;--accent-dim:rgba(122,156,126,.14);--win:#7acc85;--tie:#d4a052;--bad:#d67a5a;--px0:#212127;--px1:#e8e4db}
+*{box-sizing:border-box;margin:0;padding:0}
+[hidden]{display:none !important}
+html,body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--accent)}
+main{max-width:1040px;margin:0 auto;padding:0 16px 64px}
+nav.top{position:sticky;top:0;z-index:3;background:var(--bg);border-bottom:1px solid var(--line);display:flex;gap:14px;flex-wrap:wrap;padding:8px 16px;font-family:var(--mono);font-size:12px}
+nav.top a{color:var(--muted);text-decoration:none} nav.top a:hover{color:var(--accent)}
+header.hero{max-width:1040px;margin:0 auto;padding:36px 16px 10px}
+h1{font-family:var(--serif);font-size:clamp(34px,6vw,58px);line-height:1.05;font-weight:600}
+.lede{font-size:19px;color:var(--muted);max-width:780px;margin-top:10px}
+.verdictline{font-size:17px;margin-top:12px;max-width:780px}
+section{margin-top:40px}
+h2{font-family:var(--serif);font-size:30px;font-weight:600;margin-bottom:8px}
+h3{font-size:16px;margin:16px 0 6px}
+p+p{margin-top:8px} ul,ol{padding-left:22px} li{margin:4px 0}
+.muted{color:var(--muted)}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin-top:12px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.card .k{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.card .big{font-size:26px;font-weight:600;margin:6px 0 2px;font-variant-numeric:tabular-nums}
+.card .vs{font-size:14px;color:var(--muted)}
+.chip{display:inline-block;font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.06em;padding:2px 10px;border-radius:12px;white-space:nowrap}
+.chip.win{background:color-mix(in srgb,var(--win) 15%,transparent);color:var(--win)} .chip.bad{background:color-mix(in srgb,var(--bad) 15%,transparent);color:var(--bad)}
+.bar{height:10px;border-radius:5px;background:var(--line);margin:3px 0;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--accent);transition:width .08s linear} .bar.m i{background:var(--muted)}
+button{font:inherit;font-size:15px;color:#fff;background:var(--accent);border:0;border-radius:6px;padding:9px 16px;cursor:pointer}
+button.ghost{background:transparent;color:var(--accent);border:1px solid var(--accent)}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--tie);outline-offset:2px}
+button:disabled{opacity:.55;cursor:progress}
+select{font:inherit;font-size:14px;background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:4px;padding:6px 8px}
+table{border-collapse:collapse;width:100%;font-size:14.5px;margin-top:10px}
+td,th{border-bottom:1px solid var(--line);padding:7px 8px;text-align:left;vertical-align:top}
+th{font-family:var(--mono);font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em}
+td.num{font-variant-numeric:tabular-nums;white-space:nowrap}
+.tablewrap{overflow-x:auto}
+.ok{color:var(--win);font-weight:600} .no{color:var(--bad);font-weight:600}
+.svgwrap{overflow-x:auto;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px;margin-top:10px}
+.svgwrap svg{display:block;min-width:680px;width:100%;height:auto}
+code{font-family:var(--mono);font-size:.88em;background:var(--accent-dim);padding:1px 5px;border-radius:3px}
+.controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:10px 0}
+.controls label{display:flex;gap:6px;align-items:center;font-size:14px;color:var(--muted)}
+.controls input{width:90px;font:inherit;font-size:14px;background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:4px;padding:4px 6px}
+.stage{display:grid;grid-template-columns:minmax(200px,280px) 1fr;gap:18px;align-items:start;margin-top:10px}
+.stage canvas{width:100%;height:auto;aspect-ratio:1;border:1px solid var(--line);border-radius:8px;background:var(--px0);image-rendering:pixelated}
+.fits{display:grid;grid-template-columns:22px minmax(0,1fr) auto;gap:2px 8px;align-items:center;font-family:var(--mono);font-size:12.5px}
+.fits .bar{margin:0}
+.fits .win i{background:var(--win)}
+.readout{font-size:15px;margin-top:8px}
+.memories{display:grid;grid-template-columns:repeat(auto-fill,minmax(44px,1fr));gap:6px;margin-top:10px}
+.memories figure{text-align:center;font-family:var(--mono);font-size:10.5px;color:var(--muted)}
+.memories canvas{width:100%;height:auto;aspect-ratio:1;border:1px solid var(--line);border-radius:4px;image-rendering:pixelated;background:var(--px0)}
+.timeline{list-style:none;padding:0;border-left:2px solid var(--accent);margin-top:10px}
+.timeline li{padding:4px 0 8px 14px;position:relative}
+.timeline li::before{content:'';position:absolute;left:-6px;top:12px;width:10px;height:10px;border-radius:50%;background:var(--accent)}
+.timeline b{font-family:var(--mono);font-size:12.5px}
+footer{max-width:1040px;margin:0 auto;padding:22px 16px 40px;border-top:1px solid var(--line);color:var(--muted);font-size:13.5px}
+footer p+p{margin-top:6px}
+@media (max-width:640px){.stage{grid-template-columns:1fr}.stage canvas{max-width:260px}td,th{padding:6px 5px;font-size:13.5px}}
+</style>
+</head>
+<body>
+<nav class="top" aria-label="Sections">
+  <a href="#result">The result</a><a href="#watch">Watch it work</a><a href="#try">Try your own facts</a><a href="#what">What it is</a><a href="#words">Words</a><a href="#start">Start here</a><a href="#how">How it works</a><a href="#blueprint">Blueprint</a><a href="#contract">What it will not do</a><a href="#adoption">Adoption</a><a href="#paper">White paper</a><a href="#business">For business</a>
+</nav>
+<header class="hero">
+  <h1>A legal associate that shows its reasoning and never invents the law.</h1>
+  <p class="lede">The first of a suite of industry models built the Konomi way. A small model, trained on this laptop, reads a consumer's complaint. A verified library of real UK legislation works out the rights, the remedy and the deadlines. A gate lets nothing through that the library didn't give, and says so when a fact is missing. A qualified human reviews every word.</p>
+  <p class="verdictline" id="verdictline">Loading the record…</p>
+</header>
+<main>
+<section id="result">
+  <h2>The result</h2>
+  <p class="muted">Each claim was written down with its bar before any code (<a href="CLAIMS.md">CLAIMS.md</a>). The model, the data and the code were frozen by hash before any model read a held-out complaint (<a href="SEAL2.md">SEAL2.md</a>). A claim that misses its bar is kept and shown as failed. Every number is read from the committed record.</p>
+  <div class="tablewrap"><table id="claims"><thead><tr><th>Claim</th><th>What it says</th><th>Measured</th><th>Bar</th><th>Verdict</th></tr></thead><tbody></tbody></table></div>
+  <div class="tablewrap"><table id="three"><thead><tr><th>On the held-out complaints</th><th>The tuned 0.5B, inside the stack</th><th>The same model untuned, inside the stack</th><th>qwen2.5:7b on its own</th></tr></thead><tbody></tbody></table></div>
+  <h3>What the result says</h3>
+  <p id="lesson">…</p>
+</section>
+<section id="watch">
+  <h2>Watch it work, on a complaint it never saw</h2>
+  <p>Pick a held-out complaint. You see what the trained model read from it (recorded when it ran on this laptop), then the library and the gate turn that into the memo <b>live, in your tab</b>. Beside it is what the bigger model said on its own (also recorded), with its citations checked against the verified table.</p>
+  <div class="controls"><label>complaint <select id="w-pick"></select></label><button id="w-prev" class="ghost">Previous</button><button id="w-next" class="ghost">Next</button></div>
+  <div class="cards" style="align-items:start">
+    <div class="card"><div class="k">The complaint</div><p id="w-text" style="margin-top:6px"></p><p class="muted" id="w-today"></p></div>
+    <div class="card"><div class="k">What the trained model read <span class="muted">(recorded)</span></div><pre id="w-facts" style="white-space:pre-wrap;font-size:12.5px"></pre></div>
+  </div>
+  <div class="cards" style="align-items:start;margin-top:12px">
+    <div class="card"><div class="k">The associate's memo <span class="muted">(library and gate, live)</span></div><pre id="w-memo" style="white-space:pre-wrap;font-size:13px"></pre><p id="w-verdict"></p></div>
+    <div class="card"><div class="k">qwen2.5:7b on its own <span class="muted">(recorded)</span></div><pre id="w-raw" style="white-space:pre-wrap;font-size:12.5px"></pre><p id="w-rawcheck"></p></div>
+  </div>
+</section>
+<section id="try">
+  <h2>Try your own facts</h2>
+  <p>Set the facts of a complaint yourself and the library and the gate answer in your tab. No model is involved here: this is the reasoning layer on its own, and it gives the same answer every time.</p>
+  <div class="controls" id="t-form">
+    <label>what <select id="t-kind"><option value="goods">goods</option><option value="service">a service</option></select></label>
+    <label>bought <select id="t-channel"><option value="shop">in a shop</option><option value="online">online</option><option value="phone">by phone</option></select></label>
+    <label>price £ <input id="t-price" type="number" min="0" step="0.01" value="450"></label>
+    <label>paid by <select id="t-paid"><option>credit card</option><option>debit card</option><option>cash</option><option>bank transfer</option></select></label>
+    <label>bought on <input id="t-bought" type="date" value="2026-10-01"></label>
+    <label>delivered on <input id="t-delivered" type="date" value="2026-10-03"></label>
+    <label>fault appeared <input id="t-fault" type="date" value="2026-10-20"></label>
+    <label>failed repairs <input id="t-repairs" type="number" min="0" max="9" value="0"></label>
+    <label><input id="t-mind" type="checkbox"> just changed their mind</label>
+    <label>today <input id="t-today" type="date" value="2026-10-25"></label>
+  </div>
+  <pre id="t-memo" style="white-space:pre-wrap;font-size:13px;margin-top:10px"></pre>
+  <p class="muted">Clear a date to see the associate abstain and name what it needs.</p>
+</section>
+<section id="what">
+  <h2>What this is</h2>
+  <p>Simon's SLM Suite: one shared stack, and a model per industry where only the training data and the domain's rules change. Each finished one is both a showcase a prospect can test and the template for the next real client in that industry. Legal is first and built deep, because building it builds the shared stack.</p>
+  <p>This associate does the first screen on a consumer's complaint about goods, a service or an online purchase, under the law of England and Wales: which rights apply, which remedy, which deadlines matter, and an angle a busy reader might miss. It assists. A qualified human reviews it and owns any use of it.</p>
+</section>
+<section id="words">
+  <h2>Words on this page</h2>
+  <div class="tablewrap"><table>
+    <tr><td><b>SLM</b></td><td>A small language model: here Qwen2.5 with half a billion parameters, small enough to train and run on a laptop.</td></tr>
+    <tr><td><b>LoRA, adapter</b></td><td>A way to train a model by adding a small set of new weights (the adapter) instead of changing the whole model. The adapter is a single file of a few tens of megabytes.</td></tr>
+    <tr><td><b>Verified library</b></td><td>The associate's reasoning: rules written from the actual legislation, each checked against legislation.gov.uk, that compute the rights, the remedy and every deadline date.</td></tr>
+    <tr><td><b>The gate</b></td><td>The check between the model and the memo. Nothing reaches the memo unless the library gave it. If a critical fact is missing, the associate abstains and says what it needs.</td></tr>
+    <tr><td><b>Abstain</b></td><td>Decline to answer, and say why. Better than a confident guess.</td></tr>
+    <tr><td><b>Held-out</b></td><td>Complaints kept aside, written in different words from the training ones, and read once after everything was frozen.</td></tr>
+    <tr><td><b>Section 75</b></td><td>Consumer Credit Act 1974, s. 75: when a single item costing over one hundred pounds and up to thirty thousand pounds is paid for by credit card, the card issuer can be liable too. A classic angle that gets missed.</td></tr>
+    <tr><td><b>Seal, mutation gate</b></td><td>Seal: the claims, then the frozen model and code, committed to the public record before the held-out set is read. Mutation gate: a tool (witness) that breaks the code in small ways and checks the tests catch every break.</td></tr>
+  </table></div>
+</section>
+<section id="start">
+  <h2>Start here</h2>
+  <ol>
+    <li>Read <a href="#result">The result</a>, and the three-way table under it.</li>
+    <li>Step through a few complaints in <a href="#watch">Watch it work</a>, including one where a date is missing.</li>
+    <li>Set your own facts in <a href="#try">Try your own facts</a>, and clear a date to see it abstain.</li>
+    <li>Off the page: clone the repo and run <code>node --test test/suite.test.mjs</code>, <code>node tools/data.mjs --check</code> and <code>node tools/eval.mjs --check</code>. To re-run the models you need the base model and the adapter on your own machine.</li>
+  </ol>
+</section>
+<section id="how">
+  <h2>How it works</h2>
+  <div class="svgwrap">
+    <svg viewBox="0 0 900 200" role="img" aria-label="A complaint is read by the trained model into facts; the library computes the answer; the gate checks it; a human reviews">
+      <g fill="none" stroke="currentColor" stroke-width="1.4" style="color:var(--muted)">
+        <rect x="10" y="40" width="150" height="70" rx="10"/><rect x="190" y="40" width="160" height="70" rx="10"/><rect x="380" y="40" width="160" height="70" rx="10"/><rect x="570" y="40" width="150" height="70" rx="10"/><rect x="750" y="40" width="140" height="70" rx="10"/>
+        <path d="M160 75H190M350 75H380M540 75H570M720 75H750" style="color:var(--accent)" stroke="currentColor"/>
+      </g>
+      <g font-family="ui-monospace,monospace" font-size="13" fill="currentColor" style="color:var(--ink)">
+        <text x="22" y="70">the complaint</text><text x="22" y="90" style="fill:var(--muted)">plain words</text>
+        <text x="202" y="70">trained SLM</text><text x="202" y="90" style="fill:var(--muted)">reads the facts</text>
+        <text x="392" y="70">verified library</text><text x="392" y="90" style="fill:var(--muted)">rights, dates</text>
+        <text x="582" y="70">the gate</text><text x="582" y="90" style="fill:var(--muted)">or abstain</text>
+        <text x="762" y="70">a human</text><text x="762" y="90" style="fill:var(--muted)">reviews, owns</text>
+        <text x="10" y="160" style="fill:var(--muted)">the model reads; the law reasons; the gate refuses anything ungrounded; a person decides</text>
+      </g>
+    </svg>
+  </div>
+  <ol>
+    <li><b>Read.</b> The trained model turns the complaint into facts: what was bought, how, the price, how it was paid, the dates, how many repairs failed, and whether the buyer simply changed their mind. It also writes a one-line summary.</li>
+    <li><b>Reason.</b> The verified library takes those facts and works out the claim, the provisions that apply, the remedy and every deadline date, by fixed rules taken from the legislation.</li>
+    <li><b>Gate.</b> If a fact the answer depends on is missing, it abstains and says which. A summary that mentions law or dates on its own is withheld. Every provision cited comes from the verified table.</li>
+    <li><b>Propose.</b> Where an angle applies, such as section 75 against the card issuer, it is added, marked as a proposal.</li>
+    <li><b>Hand over.</b> Every memo ends with the review label: a qualified human reviews it and owns any use of it.</li>
+  </ol>
+</section>
+<section id="blueprint">
+  <h2>Blueprint</h2>
+  <div class="cards" id="parts"></div>
+  <p class="muted" style="margin-top:8px">What is shared and what is legal: <code>stack/</code> is the template every vertical reuses unchanged. <code>verticals/legal/</code> is all that changes: the law table, the library's rules, the fact schema and the words.</p>
+</section>
+<section id="contract">
+  <h2>What it will not do</h2>
+  <ul>
+    <li>It does not give legal advice, decide anything, file anything or send anything. A qualified human reviews it and owns any use of it.</li>
+    <li>It does not cite anything outside its verified table, and it does not compute a date any other way than the library's.</li>
+    <li>It does not guess a missing fact. It abstains and asks for it.</li>
+    <li>It covers one narrow area: consumer claims about goods, services and online purchases in England and Wales, under the provisions in its table. It is not a general legal tool.</li>
+  </ul>
+</section>
+<section id="adoption">
+  <h2>Adoption</h2>
+  <h3>A pilot, step by step</h3>
+  <ol>
+    <li>Pick one intake a team screens by hand, such as consumer enquiries or claim triage.</li>
+    <li>Agree the provisions and rules it covers, with a solicitor, and seal the bars it must meet.</li>
+    <li>Train the adapter on your own past intakes, with consent, on your own hardware.</li>
+    <li>Freeze it, then judge it once on held-out intakes against your current first screen. The fee is due only if it beat it.</li>
+    <li>Run it beside your team, deciding nothing, until the reviewers trust it on what it does.</li>
+  </ol>
+  <p class="muted">What it runs on: a laptop CPU, as here. Training the adapter took a couple of hours; each memo takes seconds. No GPU, no cloud service.</p>
+</section>
+<section id="paper">
+  <h2>White paper: let the small model read and the law reason</h2>
+  <p><b>The question.</b> Can a model small enough to train on a laptop, wrapped in a verified library and a gate, triage real-shaped legal complaints better than a bigger model answering on its own, without ever inventing the law?</p>
+  <p><b>The method.</b> Fourteen provisions read on legislation.gov.uk; a rule engine over them; synthetic complaints written from structured facts, 360 to train and 80 held out in phrasings never seen; a LoRA adapter on Qwen2.5-0.5B trained on the CPU; the claims and bars sealed first, the model and code frozen by hash, the held-out set read once.</p>
+  <p><b>The results, from the record:</b></p>
+  <ul id="results"></ul>
+  <p><b>The limits, plainly:</b></p>
+  <ul>
+    <li>Synthetic complaints, generated from templates. Real ones are messier.</li>
+    <li>One narrow area of consumer law, under fourteen provisions. No case law.</li>
+    <li>The bigger model stands in for a rented black box; it is a local qwen2.5:7b, not a commercial service.</li>
+    <li>A 0.5B model trained in a couple of hours on a laptop CPU; a GPU would allow a bigger one.</li>
+  </ul>
+</section>
+<section id="business">
+  <h2>For business</h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Who</th><th>What this means for them</th></tr></thead>
+    <tr><td>Managing partner</td><td>A first screen that shows its reasoning, cites only verified law and says when it cannot tell, on hardware you own.</td></tr>
+    <tr><td>Finance</td><td>No per-seat licence and no per-call fee. The cost case below uses your own numbers.</td></tr>
+    <tr><td>Risk and compliance</td><td>Nothing leaves the building; nothing ungrounded reaches the memo; a qualified human reviews every output and owns it.</td></tr>
+    <tr><td>IT</td><td>A base model, a small adapter file and a few scripts. It runs offline, with the network disabled.</td></tr>
+  </table></div>
+  <h3>The cost case for one intake</h3>
+  <p class="muted">Your numbers in; sourced figures for the rest, each source listed. These are your costs. No price of ours appears. The starting values are an example intake. Put in your own.</p>
+  <div class="controls">
+    <label>hours a week <input id="c-hours" type="number" min="0" max="168" value="20"></label>
+    <label>share taken off % <input id="c-share" type="number" min="0" max="100" value="40"></label>
+    <label>people <input id="c-seats" type="number" min="0" value="4"></label>
+    <label>cases a week <input id="c-cases" type="number" min="0" value="150"></label>
+    <label>years <input id="c-years" type="number" min="1" max="10" value="3"></label>
+  </div>
+  <p id="c-head" style="font-size:17px">…</p>
+  <div class="tablewrap"><table id="c-table"><thead><tr><th>Route</th><th>What it means</th><th>A year</th><th id="c-overh">Over the years</th></tr></thead><tbody></tbody></table></div>
+  <p id="c-note" class="muted" style="margin-top:8px"></p>
+  <h3>Questions buyers ask</h3>
+  <div class="tablewrap"><table>
+    <tr><td><b>Will it make up a case or a statute?</b></td><td id="faq-invent">Loading…</td></tr>
+    <tr><td><b>What happens when the client leaves out a date?</b></td><td id="faq-abstain">Loading…</td></tr>
+    <tr><td><b>Is this legal advice?</b></td><td>No. It assists a qualified human, who reviews it and owns any use of it. It does not advise, decide, file or send.</td></tr>
+    <tr><td><b>Does client data leave our machines?</b></td><td>No. Training and inference run on your hardware, and inference runs with the network disabled. This page loads only its own files.</td></tr>
+    <tr><td><b>What failed?</b></td><td id="faq-failed">Loading…</td></tr>
+    <tr><td><b>Who has used it on real matters?</b></td><td>No one yet: this is the showcase. A client build retrains the adapter on that firm's own intakes, with consent, and is judged on their held-out set before anyone relies on it.</td></tr>
+  </table></div>
+  <p style="margin-top:10px">Supplied by <a href="https://www.ai-nativesolutions.com" rel="noopener">AI Native Solutions</a>; contact through that site. Support, SLA, warranty and liability are agreed per deployment. The code is MIT.</p>
+  <p class="muted" style="margin-top:8px">Sources, as read into the cost basis:</p>
+  <ul id="c-src" class="muted" style="font-size:13px"></ul>
+</section>
+</main>
+<footer>
+  <p>Contains public sector information licensed under the Open Government Licence v3.0: the provisions in <a href="verticals/legal/law.json">the verified table</a>, read on legislation.gov.uk.</p>
+  <p>Base model: Qwen2.5-0.5B-Instruct, the Qwen team, Apache-2.0. The complaints are synthetic, written by this repository's own generator.</p>
+  <p>Powered by the Konomi architecture, created by Thomas Frumkin.</p>
+  <p>MIT licence for the code · <a href="https://github.com/sjgant80-hub/slm-suite">source</a> · the SLM Suite, Vertical #1.</p>
+</footer>
+<script type="module" src="app.mjs"></script>
+</body>
+</html>

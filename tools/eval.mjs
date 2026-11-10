@@ -20,7 +20,7 @@ for (const f of ['adapter/legal/adapter_model.safetensors', 'data/train.jsonl', 
   if (!seal.includes(sha(f))) stop(f + ' is not what seal 2 names');
 const jl = (p) => read(p).trim().split('\n').filter(Boolean).map((l) => JSON.parse(l));
 const rows = jl('data/held.jsonl'), table = JSON.parse(read('verticals/legal/law.json')).provisions;
-const ctx = { schema: V.SCHEMA, factKeys: V.FACT_KEYS, answer: L.answer, table, patterns: V.PATTERNS, words: V.WORDS, render: M.render, label: M.LABEL, proposal: M.PROPOSAL };
+const ctx = { schema: V.SCHEMA, factKeys: V.FACT_KEYS, answer: L.answer, table, patterns: V.PATTERNS, words: V.WORDS, render: M.render, label: M.LABEL, proposal: M.PROPOSAL, angle: 'cca-s75' };
 const by = (p) => { const m = new Map(jl(p).map((d) => [d.id, d.output])); if (m.size !== rows.length) stop(p + ' has ' + m.size + ' drafts for ' + rows.length + ' complaints'); return m; };
 const tuned = by('data/drafts-tuned.jsonl'), base = by('data/drafts-base.jsonl'), rawm = by('data/drafts-raw.jsonl');
 const meta = JSON.parse(read('data/drafts-tuned.jsonl.meta.json')), tlog = JSON.parse(read('data/train-log.json'));

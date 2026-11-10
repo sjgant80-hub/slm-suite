@@ -1,0 +1,25 @@
+name: proof
+on: [push, pull_request, workflow_dispatch]
+jobs:
+  proof:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: "22" }
+      - name: the shared stack, the legal vertical, the page and the licences (S9, S10)
+        run: node --test test/suite.test.mjs test/page.test.mjs
+      - name: the complaints re-derived byte for byte from the generator
+        run: node tools/data.mjs --check
+      - name: the held-out record re-derived byte for byte from the committed drafts (S1-S8)
+        run: node tools/eval.mjs --check
+      # Pinned. An unpinned gate is a gate somebody else can change.
+      - name: witness - every mutant of every kernel must die, and the committed counts must re-derive
+        run: |
+          git clone --depth 1 --branch v0.6 https://github.com/sjgant80-hub/witness.git /tmp/witness
+          for k in stack/gate stack/memo stack/score verticals/legal/library verticals/legal/scenarios verticals/legal/vertical; do
+            n=$(basename "$k")
+            node /tmp/witness/witness.mjs mutate "$k.mjs" --timeout 60000 --cap 2000 --test node --test test/suite.test.mjs > "/tmp/w-$n.json" || true
+            node tools/witness-check.mjs "$n" "/tmp/w-$n.json"
+          done

@@ -1,2 +1,5 @@
 * text=auto eol=lf
 *.safetensors binary
+# written by tools/train.py with CRLF: kept byte for byte, so SEAL 2 and the training log name the bytes git stores
+adapter/legal/adapter_config.json -text
+data/train-log.json -text
