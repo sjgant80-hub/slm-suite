@@ -68,3 +68,45 @@ test('the raw model\'s empty answers: the probe re-asked exactly the empty ones,
   assert.deepEqual(probe.probes.map((p) => p.id), empty);
   assert.equal(Object.values(probe.errors).reduce((a, b) => a + b, 0), empty.length);
 });
+
+// ── added 2026-11-16, after a cold buyer walk: what the page says must be what the code does ──
+test('no id is used twice on the page (a duplicate sent the memo timing into the Try-it box)', () => {
+  const ids = [...html.matchAll(/\sid="([^"]+)"/g)].map((m) => m[1]);
+  const dup = ids.filter((x, i) => ids.indexOf(x) !== i);
+  assert.deepEqual(dup, [], 'duplicate ids: ' + dup.join(', '));
+  for (const m of app.matchAll(/\$\('([^']+)'\)/g)) assert.ok(ids.includes(m[1]), 'app.mjs writes #' + m[1] + ', which the page does not have');
+});
+
+test('the page does not claim more than the gate does: the summary line is the model\'s own words, and says so', () => {
+  assert.equal(/Nothing reaches the memo unless the library gave it/.test(html), false, 'the summary line reaches the memo ungrounded');
+  assert.equal(/nothing ungrounded reaches the memo/i.test(html), false);
+  assert.equal(/<li>It does not guess a missing fact\. It abstains/.test(html), false, 'it guesses the item when the complaint leaves it out');
+  assert.match(html, /No provision, remedy or date reaches the memo unless the library gave it/);
+  assert.match(html, /One line is the model's own words/);
+  assert.match(app, /from '\.\/audit\/summary\.mjs'/, 'the page checks each summary live');
+  const after = JSON.parse(readFileSync(new URL('data/after-seal.json', ROOT), 'utf8'));
+  assert.equal(after.summaryAudit, 'data/summary-audit.json');
+  for (const k of ['summaryAudit', 'rawFair']) if (after[k] !== null) assert.ok(existsSync(new URL(after[k], ROOT)), after[k] + ' is listed but missing');
+  assert.match(app, /json\('data\/after-seal\.json'\)/, 'the page reads which post-seal records exist, so it never fetches a missing one');
+});
+
+test('the summary audit is the rule on the page, and its record matches the committed drafts', async () => {
+  const A = (await import('../audit/summary.mjs')).default;
+  const a = JSON.parse(readFileSync(new URL('data/summary-audit.json', ROOT), 'utf8'));
+  assert.equal(a.n, 80); assert.equal(a.rows.length, 80);
+  const held = new Map(readFileSync(new URL('data/held.jsonl', ROOT), 'utf8').trim().split('\n').map((l) => JSON.parse(l)).map((r) => [r.id, r]));
+  for (const x of a.rows) assert.equal(A.checkSummary(held.get(x.id).text, x.summary).invented, x.invented, x.id);
+  assert.equal(a.invented, a.rows.filter((x) => x.invented).length);
+  // the rule catches the example a buyer sees first, and passes a faithful one
+  assert.equal(A.checkSummary('Bought over the counter. Work completed. The finish is shoddy.', 'The client says a boiler service by X was done badly.').invented, true);
+  assert.equal(A.checkSummary('A dispute with X over a winter coat. It developed a crack.', 'The client says a winter coat from X developed a crack.').invented, false);
+  assert.equal(A.checkSummary('over a air fryer', 'The client says a pair of air fryers from X kept freezing.').invented, true);
+  assert.doesNotThrow(() => A.checkSummary(undefined, 42));
+});
+
+test('the post-seal audit kernel\'s witness receipt is for the kernel and tests as they are now', () => {
+  const w = JSON.parse(readFileSync(new URL('data/witness-audit.json', ROOT), 'utf8'));
+  assert.equal(w.sha256, sha('audit/summary.mjs'), 'audit/summary.mjs changed since its gate ran: re-run witness and update the receipt');
+  assert.equal(w.tests.sha256, sha('test/audit.test.mjs'), 'test/audit.test.mjs changed since the gate ran');
+  assert.equal(w.killed, w.total); assert.equal(w.survived, 0);
+});

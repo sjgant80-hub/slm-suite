@@ -1,0 +1,17 @@
+{
+ "what": "post-seal receipt for the summary-audit kernel (audit/summary.mjs); separate from the sealed data/witness.json, which seal 2 freezes",
+ "witness": "v0.6 (sjgant80-hub/witness, tag v0.6) — the version CI pins",
+ "command": "witness mutate audit/summary.mjs --timeout 60000 --cap 2000 --test node --test test/audit.test.mjs",
+ "ranOn": "2026-11-16, this laptop; CI re-runs it on every push and must get these same counts",
+ "alsoChecked": "witness (v0.6 and v0.7) generates only 4 mutants here, because it does not mutate the regular expressions or the string checks. So 12 hand mutations were run, and each made test/audit.test.mjs fail: lazy item match made greedy; \"by\" dropped (services); \"about\" dropped (changed-mind summaries); \"an\" dropped; complaint case-folding off; item case-folding off; pair flag never set; pair check ignores the complaint; pair check back to a substring (matches \"repairs\"); pair word boundary dropped; invented as AND, not OR; unreadable summary flagged as invented. A first version tested for the substring \"pair\", which matched \"repairs\"; a word check replaced it the same day and a test pins it.",
+ "file": "audit/summary.mjs",
+ "sha256": "97def00499c5cb5bf6e2014fffab6ac15d73fb536de06cef7d89a976bdc54ba8",
+ "tests": {
+  "file": "test/audit.test.mjs",
+  "sha256": "920002f353ea4b525bd32f9f03f95803a3cee9edee7d801fc1524dbcd4b346ce"
+ },
+ "total": 4,
+ "killed": 4,
+ "ignored": 0,
+ "survived": 0
+}

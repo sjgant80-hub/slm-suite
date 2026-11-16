@@ -7,6 +7,7 @@ import M from './stack/memo.mjs';
 import SC from './stack/score.mjs';
 import L from './verticals/legal/library.mjs';
 import V from './verticals/legal/vertical.mjs';
+import A from './audit/summary.mjs'; // post-seal: checks the one memo line the gate does not ground
 
 const $ = (id) => document.getElementById(id);
 const el = (tag, props = {}, ...kids) => { const e = document.createElement(tag); for (const [k, v] of Object.entries(props)) if (k === 'class') e.className = v; else e.setAttribute(k, v); for (const c of kids) e.append(c); return e; };
@@ -14,7 +15,7 @@ const json = (p) => fetch(p).then((r) => (r.ok ? r.json() : null)).catch(() => n
 const lines = (p) => fetch(p).then((r) => (r.ok ? r.text() : '')).then((t) => t.trim().split('\n').filter(Boolean).map((l) => JSON.parse(l))).catch(() => []);
 const pct = (a, n) => (n ? Math.round((1000 * a) / n) / 10 + '%' : '—');
 const chip = (pass) => el('span', { class: 'chip ' + (pass ? 'win' : 'bad') }, pass ? 'HELD' : 'FAILED');
-let REC = null, LAW = [], HELD = [], DRAFT = {}, RAW = {}, BASIS = null, PROBE = null, K = 0;
+let REC = null, LAW = [], HELD = [], DRAFT = {}, RAW = {}, BASIS = null, PROBE = null, SUMAUDIT = null, RAWFAIR = null, K = 0;
 const ctx = () => ({ today: null, schema: V.SCHEMA, answer: L.answer, table: LAW });
 
 function fill() {
@@ -49,7 +50,25 @@ function fill() {
       + (answered ? ' Even if all ' + answered + ' re-asked answers had been right, it would have reached ' + pct(REC.record.correct.raw + answered, REC.record.n) + ', against the associate’s ' + pct(REC.record.correct.stack, REC.record.n) + '.' : '')
     : 'qwen2.5:7b answered all ' + rawIds.length + ' complaints.';
   $('faq-fair').textContent = 'It was asked the same complaint, on the same laptop, at temperature 0, with the exact list of claim types and remedies to choose from, the option to say "cannot-tell", and the dates it had to give. It had no library and no gate: that is the point of the comparison. ' + (empties.length ? empties.length + ' of its answers came back empty' + (aborted ? ', most because Ollama stopped it repeating itself' : '') + '; on the ' + gave.length + ' it did give, it was exactly right on ' + rightRaw + '. The note under the results table says what happened when the empty ones were asked again.' : 'It answered every complaint.');
-  $('faq-failed').textContent = failed.length ? failed.map((x) => x.id + ': ' + x.what + ', measured ' + show(x) + '.').join(' ') + ' Each failure is kept on the record and on this page.' : 'Nothing measured failed its bar on this run. The limits are listed in the white paper.';
+  $('faq-failed').textContent = (failed.length ? failed.map((x) => x.id + ': ' + x.what + ', measured ' + show(x) + '.').join(' ') + ' Each failure is kept on the record and on this page.' : 'Nothing measured failed its bar on this run. The limits are listed in the white paper.')
+    + (SUMAUDIT ? ' Found after the seal: the memo\'s one-line summary named something the complaint does not say in ' + SUMAUDIT.inventedInMemo + ' of the ' + SUMAUDIT.inMemo + ' memos that show it (see "Measured after the seal" under the result).' : '');
+  if (SUMAUDIT) $('faq-invent').textContent += ' Its one-line summary of the complaint is the model\'s own words, not law, and it is not grounded: it named an item the client never mentioned in ' + SUMAUDIT.inventedInMemo + ' memos, which the reviewer must catch.';
+  // ── measured after the seal (tools outside both seals; each re-derives in CI) ──
+  if (SUMAUDIT) {
+    const a = SUMAUDIT, counts = {};
+    for (const x of a.rows) if (x.invented && x.item) { const k = (x.pairInvented ? 'a pair of ' : '') + x.item; counts[k] = (counts[k] || 0) + 1; }
+    const top = Object.entries(counts).sort((p, q) => q[1] - p[1] || p[0].localeCompare(q[0])).slice(0, 3).map(([k]) => '“' + k + '”');
+    $('as-summary').textContent = 'The memo’s summary line. The gate grounds the law, the remedy and the dates; the one line it does not ground is the model’s own one-sentence summary of the complaint. A mechanical check (the item the summary names must be in the complaint’s own words: audit/summary.mjs) finds it naming something the complaint does not say in '
+      + a.inventedInMemo + ' of the ' + a.inMemo + ' memos that show it. It happens when the client does not name the item: on all ' + a.complaintOmitsItem.invented + ' of the ' + a.complaintOmitsItem.n + ' complaints that leave it out, the model filled one in (most often ' + top.join(', ') + '); on the ' + a.complaintNamesItem.n + ' that name it, ' + a.complaintNamesItem.invented + '. '
+      + 'No sealed number counts this line, so none above changes. The fix, building that line from the facts the library uses or dropping it, changes the sealed stack, so it waits for a version judged on fresh held-out complaints. Until then the reviewer checks it, and each memo in “Watch it work” flags it.';
+  } else $('as-summary').hidden = true;
+  if (RAWFAIR) {
+    const f = RAWFAIR, b = f.baselines, n = f.n;
+    $('as-fair').textContent = 'A fairer go for the bigger model. The sealed run had Ollama’s JSON grammar on, which is what aborted it. Re-run on all ' + n + ' complaints with the grammar off and the same prompt byte for byte, qwen2.5:7b was exactly right or rightly abstained on '
+      + b.nogrammar.correct + ' (' + pct(b.nogrammar.correct, n) + '), with ' + b.nogrammar.empty + ' empty. Handed the law as well, the same prompt plus all ' + LAW.length + ' verified provisions with what each says, it managed ' + b.withlaw.correct + ' (' + pct(b.withlaw.correct, n) + '), citing ' + b.withlaw.outsideTable + ' provisions from outside the table it was given. '
+      + 'The associate: ' + f.stackCorrect + ' (' + pct(f.stackCorrect, n) + '). The lower bound of the associate minus each, paired over the same complaints: ' + b.nogrammar.stackMinusThisLow + ' and ' + b.withlaw.stackMinusThisLow + '. Both runs: temperature 0, seed ' + f.options.seed + ', room for ' + f.options.num_predict + ' tokens where the sealed run allowed 400, so more room for it, never less. It still had to choose the claim and remedy and compute every date itself: that is what the library does.';
+    $('faq-fair').textContent += ' After the seal it was given two fairer goes, the grammar off and the law handed to it: ' + pct(b.nogrammar.correct, n) + ' and ' + pct(b.withlaw.correct, n) + ', against the associate’s ' + pct(f.stackCorrect, n) + ' (“Measured after the seal”, under the result).';
+  } else $('as-fair').textContent = 'A fairer go for the bigger model, written down before any result existed: the same 80 complaints with Ollama’s JSON grammar off (the cause of the aborts), and again with all ' + LAW.length + ' verified provisions handed to it (tools/raw-fair.mjs, committed first). Its result is not in yet; it will be added here whatever it shows.';
   $('parts').replaceChildren(...[['stack/gate.mjs', 'The gate: reads the model\'s facts against the schema, withholds a summary that cites law or dates, abstains on a missing fact.'], ['stack/memo.mjs', 'The memo and the human contract: the review label on every output, angles as proposals.'], ['stack/score.mjs', 'The evaluation: one rule for the stack and the raw model, the paired bootstrap, every claim on whole counts.'], ['verticals/legal/library.mjs', 'The verified library: the claim, the provisions, the remedy and every deadline date, from the legislation.'], ['verticals/legal/law.json', 'The verified table: 14 provisions, each with its legislation.gov.uk address, under the OGL.'], ['adapter/legal/', 'The trained LoRA adapter, with the base model\'s Apache-2.0 licence.']]
     .map(([h, t]) => el('div', { class: 'card' }, el('div', { class: 'k' }, h), el('p', { style: 'font-size:14.5px;margin-top:4px' }, t))));
 }
@@ -64,7 +83,13 @@ function watch() {
   const r = G.decide(out, { ...ctx(), today });
   $('w-memo').textContent = M.render(r, { words: V.WORDS });
   const s = SC.stackCase(h, out, { schema: V.SCHEMA, factKeys: V.FACT_KEYS, answer: L.answer, table: LAW, patterns: V.PATTERNS, words: V.WORDS, render: M.render, label: M.LABEL, proposal: M.PROPOSAL, angle: 'cca-s75' });
-  $('w-verdict').replaceChildren(el('span', { class: 'chip ' + (s.correct ? 'win' : 'bad') }, s.correct ? 'RIGHT' : 'WRONG'), ' against the truth this complaint was written from' + (s.truthAbstains ? ' (a critical fact is missing from it)' : '') + '.');
+  $('w-verdict').replaceChildren(el('span', { class: 'chip ' + (s.correct ? 'win' : 'bad') }, s.correct ? 'RIGHT' : 'WRONG'), ' against the truth this complaint was written from' + (s.truthAbstains ? ' (a critical fact is missing from it)' : '') + ': the claim, the remedy, the provisions and every date.');
+  // the summary line is not part of that verdict and the gate does not ground it, so check it here, in the open
+  const od = G.firstObject(out), summ = od && typeof od.summary === 'string' ? od.summary : null, sc = A.checkSummary(h.text, summ);
+  const shown = $('w-memo').textContent.includes('The complaint, as read: ');
+  $('w-summarycheck').replaceChildren(...(!shown || !sc.item ? [] : sc.invented
+    ? [el('span', { class: 'chip bad' }, 'CHECK THE SUMMARY'), ' The model’s one-line summary says “' + (sc.pairInvented ? 'a pair of ' : '') + sc.item + '”, which this complaint never says. That line is the model’s own words: the gate grounds the law, the remedy and the dates, not this. The reviewer has to catch it.']
+    : [el('span', { class: 'chip win' }, 'SUMMARY CHECKED'), ' The item the summary names, “' + sc.item + '”, is in the complaint’s own words.']));
   const rawOut = RAW[h.id] || '', o = G.firstObject(rawOut);
   $('w-raw').textContent = o ? JSON.stringify(o, null, 1) : rawOut || (h.id in RAW ? '(empty: see the note under the results table)' : '(no answer recorded)');
   const rc = SC.rawCase(h, rawOut, { answer: L.answer, patterns: V.PATTERNS });
@@ -112,11 +137,13 @@ async function main() {
     watch();
   }
   // the timings, read from the training log and the inference receipt, never typed in
-  const [tlog, meta, probe] = await Promise.all([json('data/train-log.json'), json('data/drafts-tuned.jsonl.meta.json'), json('data/raw-probe.json')]);
-  PROBE = probe;
+  const after = (await json('data/after-seal.json')) || {}; // which post-seal records exist (null = not in yet)
+  const [tlog, meta, probe, sumaudit, rawfair] = await Promise.all([json('data/train-log.json'), json('data/drafts-tuned.jsonl.meta.json'), json('data/raw-probe.json'),
+    after.summaryAudit ? json(after.summaryAudit) : null, after.rawFair ? json(after.rawFair) : null]);
+  PROBE = probe; SUMAUDIT = sumaudit; RAWFAIR = rawfair;
   const dur = (s) => (s >= 3600 ? Math.floor(s / 3600) + ' h ' + Math.round((s % 3600) / 60) + ' min' : s >= 90 ? Math.round(s / 60) + ' minutes' : Math.round(s) + ' seconds');
   $('t-train').textContent = tlog && tlog.seconds ? dur(tlog.seconds) + ' (' + (tlog.steps ? tlog.steps.length : '?') + ' steps over ' + tlog.rows + ' complaints, ' + (tlog.config ? tlog.config.epochs : '?') + ' passes)' : '…';
-  $('t-memo').textContent = meta && meta.seconds && HELD.length ? dur(meta.seconds / HELD.length) + ' (' + HELD.length + ' memos in ' + dur(meta.seconds) + ')' : '…';
+  $('t-memotime').textContent = meta && meta.seconds && HELD.length ? dur(meta.seconds / HELD.length) + ' (' + HELD.length + ' memos in ' + dur(meta.seconds) + ')' : '…';
   if (!REC) { $('verdictline').textContent = 'The record did not load; reload the page.'; return; }
   fill();
 }

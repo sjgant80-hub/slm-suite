@@ -15,8 +15,11 @@ accountable for every output. It does not advise, decide, file or send.**
 - **A verified library reasons.** `verticals/legal/library.mjs` is a deterministic rule engine over UK legislation
   (Consumer Rights Act 2015, Consumer Contracts Regulations 2013, Consumer Credit Act 1974 s. 75, Limitation Act 1980).
   Every provision in `verticals/legal/law.json` carries its legislation.gov.uk address, under the Open Government Licence.
-- **A gate never invents.** `stack/gate.mjs`: a cited provision survives only if it is in the verified table and the
+- **A gate never invents the law.** `stack/gate.mjs`: a cited provision survives only if it is in the verified table and the
   library says it applies; every date must equal the library's; a missing critical fact means abstain and flag a human.
+  One line is not grounded: the model's one-sentence summary of the complaint (withheld only if it mentions law or
+  dates). After the seal, `tools/summary-audit.mjs` found it naming an item the client never mentioned in 30 of the 79
+  memos that show it: every time the complaint left the item out. The page flags it on every memo.
 - **The memo keeps the human contract.** `stack/memo.mjs`: the review label on every output; angles are proposals.
 
 ## Proof
@@ -27,6 +30,10 @@ accountable for every output. It does not advise, decide, file or send.**
 - **The held-out judgement** is `data/record.json`, scored by `stack/score.mjs` from the three committed sets of drafts:
   the tuned model inside the stack, the same model untuned inside the stack, and qwen2.5:7b on its own. CI re-derives it
   byte for byte from the drafts. A claim that misses its bar is kept and shown as failed.
+- **Measured after the seal, by tools outside both seals** (they change no sealed number; each re-derives in CI):
+  `tools/summary-audit.mjs` + `audit/summary.mjs` (the summary line, mutation-gated, receipt `data/witness-audit.json`);
+  `tools/raw-fair.mjs` (two fairer goes for qwen2.5:7b: JSON grammar off, and the verified law handed to it), committed
+  before any of its results existed.
 - **The raw model's empty answers** are explained, not hidden: `tools/raw-probe.mjs` (written after the raw pass,
   outside both seals) re-asks qwen2.5:7b exactly the complaints whose answer came back empty, with the same request,
   and records what Ollama said (`data/raw-probe.json`). It changes no draft; the record does not read it.

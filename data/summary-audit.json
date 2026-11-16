@@ -1,0 +1,738 @@
+{
+ "what": "post-seal audit of the memo summary line (tools/summary-audit.mjs, audit/summary.mjs); never read by the sealed record",
+ "rule": "the item or service the summary names must appear in the complaint's own words, and \"a pair of\" must be something the complaint says",
+ "n": 80,
+ "inMemo": 79,
+ "invented": 30,
+ "inventedInMemo": 30,
+ "complaintOmitsItem": {
+  "n": 29,
+  "invented": 29
+ },
+ "complaintNamesItem": {
+  "n": 51,
+  "invented": 1
+ },
+ "rows": [
+  {
+   "id": "held-0",
+   "summary": "The client says a boiler service by Starling Supplies was done badly.",
+   "inMemo": true,
+   "complaintNamesItem": false,
+   "item": "boiler service",
+   "invented": true,
+   "pairInvented": false
+  },
+  {
+   "id": "held-1",
+   "summary": "The client says a laptop from Quayside Goods gave off a burning smell.",
+   "inMemo": true,
+   "complaintNamesItem": false,
+   "item": "laptop",
+   "invented": true,
+   "pairInvented": false
+  },
+  {
+   "id": "held-2",
+   "summary": "The client changed their mind about a tablet computer from Starling Supplies.",
+   "inMemo": true,
+   "complaintNamesItem": true,
+   "item": "tablet computer",
+   "invented": false,
+   "pairInvented": false
+  },
+  {
+   "id": "held-3",
+   "summary": "The client says a bicycle from Meridian Retail kept freezing.",
+   "inMemo": true,
+   "complaintNamesItem": false,
+   "item": "bicycle",
+   "invented": true,
+   "pairInvented": false
+  },
+  {
+   "id": "held-4",
+   "summary": "The client says a pair of boots from Starling Supplies kept freezing.",
+   "inMemo": true,
+   "complaintNamesItem": false,
+   "item": "boots",
+   "invented": true,
+   "pairInvented": true
+  },
+  {
+   "id": "held-5",
+   "summary": "The client says a tablet computer from Copperleaf developed a crack.",
+   "inMemo": true,
+   "complaintNamesItem": true,
+   "item": "tablet computer",
+   "invented": false,
+   "pairInvented": false
+  },
+  {
+   "id": "held-6",
+   "summary": "The client changed their mind about a pair of boots from Copperleaf.",
+   "inMemo": true,
+   "complaintNamesItem": false,
+   "item": "boots",
+   "invented": true,
+   "pairInvented": true
+  },
+  {
+   "id": "held-7",
+   "summary": "The client says a pair of boots from Fenwick & Daughters broke.",
+   "inMemo": true,
+   "complaintNamesItem": false,
+   "item": "boots",
+   "invented": true,
+   "pairInvented": true
+  },
+  {
+   "id": "held-8",
+   "summary": "The client says a winter coat from Hollow Lane Ltd gave off a burning smell.",
+   "inMemo": true,
+   "complaintNamesItem": true,
+   "item": "winter coat",
+   "invented": false,
+   "pairInvented": false
+  },
+  {
+   "id": "held-9",
+   "summary": "The client says a boiler service by Copperleaf was done badly.",
+   "inMemo": true,
+   "complaintNamesItem": false,
+   "item": "boiler service",
+   "invented": true,
+   "pairInvented": false
+  },
+  {
+   "id": "held-10",
+   "summary": "The client says a toaster from Quayside Goods broke.",
+   "inMemo": true,
+   "complaintNamesItem": true,
+   "item": "toaster",
+   "invented": false,
+   "pairInvented": false
+  },
+  {
+   "id": "held-11",
+   "summary": "The client says a electric scooter from Fenwick & Daughters stopped charging.",
+   "inMemo": true,
+   "complaintNamesItem": true,
+   "item": "electric scooter",
+   "invented": false,
+   "pairInvented": false
+  },
+  {
+   "id": "held-12",
+   "summary": "The client says a toaster from Fenwick & Daughters broke.",
+   "inMemo": true,
+   "complaintNamesItem": true,
+   "item": "toaster",
+   "invented": false,
+   "pairInvented": false
+  },
+  {
+   "id": "held-13",
+   "summary": "The client says a window installation by Quayside Goods was done badly.",
+   "inMemo": true,
+   "complaintNamesItem": true,
+   "item": "window installation",
+   "invented": false,
+   "pairInvented": false
+  },
+  {
+   "id": "held-14",
+   "summary": "The client says a dishwasher from Starling Supplies kept freezing.",
+   "inMemo": true,
+   "complaintNamesItem": true,
+   "item": "dishwasher",
+   "invented": false,
+   "pairInvented": false
+  },
+  {
+   "id": "held-15",
+   "summary": "The client changed their mind about a pair of boots from Meridian Retail.",
+   "inMemo": true,
+   "complaintNamesItem": false,
+   "item": "boots",
+   "invented": true,
+   "pairInvented": true
+  },
+  {
+   "id": "held-16",
+   "summary": "The client says a pair of boots from Fenwick & Daughters burned.",
+   "inMemo": true,
+   "complaintNamesItem": false,
+   "item": "boots",
+   "invented": true,
+   "pairInvented": true
+  },
+  {
+   "id": "held-17",
+   "summary": "The client changed their mind about a dishwasher from Meridian Retail.",
+   "inMemo": true,
+   "complaintNamesItem": true,
+   "item": "dishwasher",
+   "invented": false,
+   "pairInvented": false
+  },
+  {
+   "id": "held-18",
+   "summary": "The client says a dining table from Hollow Lane Ltd was damaged.",
+   "inMemo": true,
+   "complaintNamesItem": true,
+   "item": "dining table",
+   "invented": false,
+   "pairInvented": false
+  },
+  {
+   "id": "held-19",
+   "summary": "The client says a tumble dryer from Fenwick & Daughters lost a part.",
+   "inMemo": true,
+   "complaintNamesItem": true,
+   "item": "tumble dryer",
+   "invented": false,
+   "pairInvented": false
+  },
+  {
+   "id": "held-20",
+   "summary": "The client changed their mind about a pair of boots from Copperleaf.",
+   "inMemo": true,
+   "complaintNamesItem": false,
+   "item": "boots",
+   "invented": true,
+   "pairInvented": true
+  },
+  {
+   "id": "held-21",
+   "summary": "The client changed their mind about a vacuum cleaner from Quayside Goods.",
+   "inMemo": true,
+   "complaintNamesItem": false,
+   "item": "vacuum cleaner",
+   "invented": true,
+   "pairInvented": false
+  },
+  {
+   "id": "held-22",
+   "summary": "The client changed their mind about a blender from Meridian Retail.",
+   "inMemo": true,
+   "complaintNamesItem": true,
+   "item": "blender",
+   "invented": false,
+   "pairInvented": false
+  },
+  {
+   "id": "held-23",
+   "summary": "The client says a tumble dryer from Hollow Lane Ltd kept freezing.",
+   "inMemo": true,
+   "complaintNamesItem": true,
+   "item": "tumble dryer",
+   "invented": false,
+   "pairInvented": false
+  },
+  {
+   "id": "held-24",
+   "summary": "The client says a boiler service by Hollow Lane Ltd was done badly.",
+   "inMemo": true,
+   "complaintNamesItem": false,
+   "item": "boiler service",
+   "invented": true,
+   "pairInvented": false
+  },
+  {
+   "id": "held-25",
+   "summary": "The client says a electrical rewiring by Copperleaf was done badly.",
+   "inMemo": true,
+   "complaintNamesItem": true,
+   "item": "electrical rewiring",
+   "invented": false,
+   "pairInvented": false
+  },
+  {
+   "id": "held-26",
+   "summary": "The client says a driveway resurfacing by Fenwick & Daughters was done badly.",
+   "inMemo": true,
+   "complaintNamesItem": true,
+   "item": "driveway resurfacing",
+   "invented": false,
+   "pairInvented": false
+  },
+  {
+   "id": "held-27",
+   "summary": "The client says a bicycle from Fenwick & Daughters was done badly.",
+   "inMemo": true,
+   "complaintNamesItem": false,
+   "item": "bicycle",
+   "invented": true,
+   "pairInvented": false
+  },
+  {
+   "id": "held-28",
+   "summary": "The client says a electric scooter from Fenwick & Daughters kept freezing.",
+   "inMemo": true,
+   "complaintNamesItem": true,
+   "item": "electric scooter",
+   "invented": false,
+   "pairInvented": false
+  },
+  {
+   "id": "held-29",
+   "summary": "The client says a desk lamp from Starling Supplies gave off a burning smell.",
+   "inMemo": true,
+   "complaintNamesItem": true,
+   "item": "desk lamp",
+   "invented": false,
+   "pairInvented": false
+  },
+  {
+   "id": "held-30",
+   "summary": "The client changed their mind about a dishwasher from Starling Supplies.",
+   "inMemo": true,
+   "complaintNamesItem": true,
+   "item": "dishwasher",
+   "invented": false,
+   "pairInvented": false
+  },
+  {
+   "id": "held-31",
+   "summary": "The client changed their mind about a pair of boots from Copperleaf.",
+   "inMemo": true,
+   "complaintNamesItem": false,
+   "item": "boots",
+   "invented": true,
+   "pairInvented": true
+  },
+  {
+   "id": "held-32",
+   "summary": "The client says a smartwatch from Hollow Lane Ltd developed a crack.",
+   "inMemo": true,
+   "complaintNamesItem": true,
+   "item": "smartwatch",
+   "invented": false,
+   "pairInvented": false
+  },
+  {
+   "id": "held-33",
+   "summary": "The client changed their mind about a pair of boots from Starling Supplies.",
+   "inMemo": true,
+   "complaintNamesItem": false,
+   "item": "boots",
+   "invented": true,
+   "pairInvented": true
+  },
+  {
+   "id": "held-34",
+   "summary": "The client changed their mind about a electric scooter from Meridian Retail.",
+   "inMemo": true,
+   "complaintNamesItem": true,
+   "item": "electric scooter",
+   "invented": false,
+   "pairInvented": false
+  },
+  {
+   "id": "held-35",
+   "summary": "The client says a pair of boots from Fenwick & Daughters cracked.",
+   "inMemo": true,
+   "complaintNamesItem": false,
+   "item": "boots",
+   "invented": true,
+   "pairInvented": true
+  },
+  {
+   "id": "held-36",
+   "summary": "The client changed their mind about a smartwatch from Fenwick & Daughters.",
+   "inMemo": true,
+   "complaintNamesItem": true,
+   "item": "smartwatch",
+   "invented": false,
+   "pairInvented": false
+  },
+  {
+   "id": "held-37",
+   "summary": "The client says a smartwatch from Hollow Lane Ltd lost a part.",
+   "inMemo": true,
+   "complaintNamesItem": true,
+   "item": "smartwatch",
+   "invented": false,
+   "pairInvented": false
+  },
+  {
+   "id": "held-38",
+   "summary": "The client says a games console from Hollow Lane Ltd lost a part.",
+   "inMemo": true,
+   "complaintNamesItem": true,
+   "item": "games console",
+   "invented": false,
+   "pairInvented": false
+  },
+  {
+   "id": "held-39",
+   "summary": "The client says a pair of air fryers from Quayside Goods kept freezing.",
+   "inMemo": true,
+   "complaintNamesItem": true,
+   "item": "air fryers",
+   "invented": true,
+   "pairInvented": true
+  },
+  {
+   "id": "held-40",
+   "summary": "The client says a house painting by Fenwick & Daughters was done badly.",
+   "inMemo": true,
+   "complaintNamesItem": true,
+   "item": "house painting",
+   "invented": false,
+   "pairInvented": false
+  },
+  {
+   "id": "held-41",
+   "summary": "The client says a smartwatch from Meridian Retail broke down.",
+   "inMemo": true,
+   "complaintNamesItem": true,
+   "item": "smartwatch",
+   "invented": false,
+   "pairInvented": false
+  },
+  {
+   "id": "held-42",
+   "summary": "The client says a winter coat from Fenwick & Daughters kept freezing.",
+   "inMemo": true,
+   "complaintNamesItem": true,
+   "item": "winter coat",
+   "invented": false,
+   "pairInvented": false
+  },
+  {
+   "id": "held-43",
+   "summary": "The client says a dishwasher from Hollow Lane Ltd lost a part.",
+   "inMemo": true,
+   "complaintNamesItem": true,
+   "item": "dishwasher",
+   "invented": false,
+   "pairInvented": false
+  },
+  {
+   "id": "held-44",
+   "summary": "The client changed their mind about a dishwasher from Copperleaf.",
+   "inMemo": true,
+   "complaintNamesItem": true,
+   "item": "dishwasher",
+   "invented": false,
+   "pairInvented": false
+  },
+  {
+   "id": "held-45",
+   "summary": "The client says a smartwatch from Meridian Retail stopped charging.",
+   "inMemo": true,
+   "complaintNamesItem": true,
+   "item": "smartwatch",
+   "invented": false,
+   "pairInvented": false
+  },
+  {
+   "id": "held-46",
+   "summary": "The client says a laptop from Quayside Goods broke down.",
+   "inMemo": true,
+   "complaintNamesItem": false,
+   "item": "laptop",
+   "invented": true,
+   "pairInvented": false
+  },
+  {
+   "id": "held-47",
+   "summary": "The client says a house painting by Fenwick & Daughters was done badly.",
+   "inMemo": true,
+   "complaintNamesItem": true,
+   "item": "house painting",
+   "invented": false,
+   "pairInvented": false
+  },
+  {
+   "id": "held-48",
+   "summary": "The client says a pair of boots from Fenwick & Daughters cracked.",
+   "inMemo": true,
+   "complaintNamesItem": false,
+   "item": "boots",
+   "invented": true,
+   "pairInvented": true
+  },
+  {
+   "id": "held-49",
+   "summary": "The client changed their mind about a tablet computer from Meridian Retail.",
+   "inMemo": true,
+   "complaintNamesItem": true,
+   "item": "tablet computer",
+   "invented": false,
+   "pairInvented": false
+  },
+  {
+   "id": "held-50",
+   "summary": "The client changed their mind about a pair of boots from Fenwick & Daughters.",
+   "inMemo": true,
+   "complaintNamesItem": false,
+   "item": "boots",
+   "invented": true,
+   "pairInvented": true
+  },
+  {
+   "id": "held-51",
+   "summary": "The client says a boiler service by Hollow Lane Ltd was done badly.",
+   "inMemo": true,
+   "complaintNamesItem": false,
+   "item": "boiler service",
+   "invented": true,
+   "pairInvented": false
+  },
+  {
+   "id": "held-52",
+   "summary": "The client says a plumbing repair by Quayside Goods was done badly.",
+   "inMemo": true,
+   "complaintNamesItem": true,
+   "item": "plumbing repair",
+   "invented": false,
+   "pairInvented": false
+  },
+  {
+   "id": "held-53",
+   "summary": "The client says a pair of boots from Meridian Retail kept freezing.",
+   "inMemo": true,
+   "complaintNamesItem": false,
+   "item": "boots",
+   "invented": true,
+   "pairInvented": true
+  },
+  {
+   "id": "held-54",
+   "summary": "The client says a laptop from Quayside Goods broke.",
+   "inMemo": true,
+   "complaintNamesItem": false,
+   "item": "laptop",
+   "invented": true,
+   "pairInvented": false
+  },
+  {
+   "id": "held-55",
+   "summary": "The client says a driveway resurfacing by Quayside Goods was done badly.",
+   "inMemo": true,
+   "complaintNamesItem": true,
+   "item": "driveway resurfacing",
+   "invented": false,
+   "pairInvented": false
+  },
+  {
+   "id": "held-56",
+   "summary": "The client says a boiler service by Quayside Goods was done badly.",
+   "inMemo": true,
+   "complaintNamesItem": false,
+   "item": "boiler service",
+   "invented": true,
+   "pairInvented": false
+  },
+  {
+   "id": "held-57",
+   "summary": "The client says a plumbing repair by Starling Supplies was done badly.",
+   "inMemo": true,
+   "complaintNamesItem": true,
+   "item": "plumbing repair",
+   "invented": false,
+   "pairInvented": false
+  },
+  {
+   "id": "held-58",
+   "summary": "The client says a laptop from Starling Supplies cracked.",
+   "inMemo": true,
+   "complaintNamesItem": false,
+   "item": "laptop",
+   "invented": true,
+   "pairInvented": false
+  },
+  {
+   "id": "held-59",
+   "summary": "The client says a winter coat from Meridian Retail kept freezing.",
+   "inMemo": true,
+   "complaintNamesItem": true,
+   "item": "winter coat",
+   "invented": false,
+   "pairInvented": false
+  },
+  {
+   "id": "held-60",
+   "summary": "The client says a boiler service by Meridian Retail was done badly.",
+   "inMemo": true,
+   "complaintNamesItem": false,
+   "item": "boiler service",
+   "invented": true,
+   "pairInvented": false
+  },
+  {
+   "id": "held-61",
+   "summary": "The client says a laptop from Quayside Goods was damaged.",
+   "inMemo": true,
+   "complaintNamesItem": false,
+   "item": "laptop",
+   "invented": true,
+   "pairInvented": false
+  },
+  {
+   "id": "held-62",
+   "summary": "The client changed their mind about a electric scooter from Quayside Goods.",
+   "inMemo": true,
+   "complaintNamesItem": true,
+   "item": "electric scooter",
+   "invented": false,
+   "pairInvented": false
+  },
+  {
+   "id": "held-63",
+   "summary": "The client says a driveway resurfacing by Copperleaf was done badly.",
+   "inMemo": true,
+   "complaintNamesItem": true,
+   "item": "driveway resurfacing",
+   "invented": false,
+   "pairInvented": false
+  },
+  {
+   "id": "held-64",
+   "summary": "The client says a winter coat from Hollow Lane Ltd broke down.",
+   "inMemo": true,
+   "complaintNamesItem": true,
+   "item": "winter coat",
+   "invented": false,
+   "pairInvented": false
+  },
+  {
+   "id": "held-65",
+   "summary": "The client says a winter coat from Starling Supplies stopped charging.",
+   "inMemo": false,
+   "complaintNamesItem": true,
+   "item": "winter coat",
+   "invented": false,
+   "pairInvented": false
+  },
+  {
+   "id": "held-66",
+   "summary": "The client says a electrical rewiring by Hollow Lane Ltd was done badly.",
+   "inMemo": true,
+   "complaintNamesItem": true,
+   "item": "electrical rewiring",
+   "invented": false,
+   "pairInvented": false
+  },
+  {
+   "id": "held-67",
+   "summary": "The client says a air fryer from Quayside Goods gave off a burning smell.",
+   "inMemo": true,
+   "complaintNamesItem": true,
+   "item": "air fryer",
+   "invented": false,
+   "pairInvented": false
+  },
+  {
+   "id": "held-68",
+   "summary": "The client says a tumble dryer from Hollow Lane Ltd stopped charging.",
+   "inMemo": true,
+   "complaintNamesItem": true,
+   "item": "tumble dryer",
+   "invented": false,
+   "pairInvented": false
+  },
+  {
+   "id": "held-69",
+   "summary": "The client says a laptop from Hollow Lane Ltd was damaged.",
+   "inMemo": true,
+   "complaintNamesItem": false,
+   "item": "laptop",
+   "invented": true,
+   "pairInvented": false
+  },
+  {
+   "id": "held-70",
+   "summary": "The client says a games console from Fenwick & Daughters developed a crack.",
+   "inMemo": true,
+   "complaintNamesItem": true,
+   "item": "games console",
+   "invented": false,
+   "pairInvented": false
+  },
+  {
+   "id": "held-71",
+   "summary": "The client says a pair of boots from Meridian Retail burned.",
+   "inMemo": true,
+   "complaintNamesItem": false,
+   "item": "boots",
+   "invented": true,
+   "pairInvented": true
+  },
+  {
+   "id": "held-72",
+   "summary": "The client says a dishwasher from Copperleaf kept freezing.",
+   "inMemo": true,
+   "complaintNamesItem": true,
+   "item": "dishwasher",
+   "invented": false,
+   "pairInvented": false
+  },
+  {
+   "id": "held-73",
+   "summary": "The client says a blender from Quayside Goods developed a crack.",
+   "inMemo": true,
+   "complaintNamesItem": true,
+   "item": "blender",
+   "invented": false,
+   "pairInvented": false
+  },
+  {
+   "id": "held-74",
+   "summary": "The client says a dishwasher from Copperleaf lost a part.",
+   "inMemo": true,
+   "complaintNamesItem": true,
+   "item": "dishwasher",
+   "invented": false,
+   "pairInvented": false
+  },
+  {
+   "id": "held-75",
+   "summary": "The client changed their mind about a smartwatch from Fenwick & Daughters.",
+   "inMemo": true,
+   "complaintNamesItem": true,
+   "item": "smartwatch",
+   "invented": false,
+   "pairInvented": false
+  },
+  {
+   "id": "held-76",
+   "summary": "The client says a winter coat from Copperleaf developed a crack.",
+   "inMemo": true,
+   "complaintNamesItem": true,
+   "item": "winter coat",
+   "invented": false,
+   "pairInvented": false
+  },
+  {
+   "id": "held-77",
+   "summary": "The client says a smartwatch from Quayside Goods broke.",
+   "inMemo": true,
+   "complaintNamesItem": true,
+   "item": "smartwatch",
+   "invented": false,
+   "pairInvented": false
+  },
+  {
+   "id": "held-78",
+   "summary": "The client says a laptop from Quayside Goods was done badly.",
+   "inMemo": true,
+   "complaintNamesItem": false,
+   "item": "laptop",
+   "invented": true,
+   "pairInvented": false
+  },
+  {
+   "id": "held-79",
+   "summary": "The client says a dining table from Meridian Retail kept freezing.",
+   "inMemo": true,
+   "complaintNamesItem": true,
+   "item": "dining table",
+   "invented": false,
+   "pairInvented": false
+  }
+ ]
+}

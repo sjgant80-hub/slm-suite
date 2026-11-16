@@ -86,6 +86,12 @@ footer p+p{margin-top:6px}
   <div class="tablewrap"><table id="claims"><thead><tr><th>Claim</th><th>What it says</th><th>Measured</th><th>Bar</th><th>Verdict</th></tr></thead><tbody></tbody></table></div>
   <div class="tablewrap"><table id="three"><thead><tr><th>On the held-out complaints</th><th>The tuned 0.5B, inside the stack</th><th>The same model untuned, inside the stack</th><th>qwen2.5:7b on its own</th></tr></thead><tbody></tbody></table></div>
   <p id="raw-empty" class="muted">…</p>
+  <div class="card" id="after-seal" style="margin-top:14px">
+    <div class="k">Measured after the seal: the checks a skeptic asks for</div>
+    <p class="muted" style="font-size:14px;margin-top:4px">Run after the held-out record, by tools outside both seals. They change no sealed number above; they test it. Each re-derives in CI from committed files.</p>
+    <p id="as-fair" style="font-size:14.5px">…</p>
+    <p id="as-summary" style="font-size:14.5px">…</p>
+  </div>
   <p class="muted"><b>What these numbers are measured on.</b> Synthetic complaints: written by this repository's own generator from structured facts, in phrasings the model never trained on, with the truth computed by the verified library. No real client matter has been run. A client build retrains the adapter on that firm's own intakes, with consent, and is judged the same way on a held-out set of its own before anyone relies on it.</p>
   <h3>What the result says</h3>
   <p id="lesson">…</p>
@@ -99,7 +105,7 @@ footer p+p{margin-top:6px}
     <div class="card"><div class="k">What the trained model read <span class="muted">(recorded)</span></div><pre id="w-facts" style="white-space:pre-wrap;font-size:12.5px"></pre></div>
   </div>
   <div class="cards" style="align-items:start;margin-top:12px">
-    <div class="card"><div class="k">The associate's memo <span class="muted">(library and gate, live)</span></div><pre id="w-memo" style="white-space:pre-wrap;font-size:13px"></pre><p id="w-verdict"></p></div>
+    <div class="card"><div class="k">The associate's memo <span class="muted">(library and gate, live)</span></div><pre id="w-memo" style="white-space:pre-wrap;font-size:13px"></pre><p id="w-verdict"></p><p id="w-summarycheck" style="font-size:13.5px"></p></div>
     <div class="card"><div class="k">qwen2.5:7b on its own <span class="muted">(recorded)</span></div><pre id="w-raw" style="white-space:pre-wrap;font-size:12.5px"></pre><p id="w-rawcheck"></p></div>
   </div>
 </section>
@@ -132,7 +138,7 @@ footer p+p{margin-top:6px}
     <tr><td><b>SLM</b></td><td>A small language model: here Qwen2.5 with half a billion parameters, small enough to train and run on a laptop.</td></tr>
     <tr><td><b>LoRA, adapter</b></td><td>A way to train a model by adding a small set of new weights (the adapter) instead of changing the whole model. The adapter is a single file of a few tens of megabytes.</td></tr>
     <tr><td><b>Verified library</b></td><td>The associate's reasoning: rules written from the actual legislation, each checked against legislation.gov.uk, that compute the rights, the remedy and every deadline date.</td></tr>
-    <tr><td><b>The gate</b></td><td>The check between the model and the memo. Nothing reaches the memo unless the library gave it. If the model reports a critical fact missing, the associate abstains and says what it needs. If the model reads a fact that is not there, the gate cannot tell; the human review is what catches it.</td></tr>
+    <tr><td><b>The gate</b></td><td>The check between the model and the memo. No provision, remedy or date reaches the memo unless the library gave it. If the model reports a critical fact missing, the associate abstains and says what it needs. If the model reads a fact that is not there, the gate cannot tell; the human review is what catches it. One line is the model's own words: its one-sentence summary of the complaint. The gate withholds it if it mentions law or dates and checks nothing else about it; the audit under <a href="#result">the result</a> counts how often it is wrong.</td></tr>
     <tr><td><b>Abstain</b></td><td>Decline to answer, and say why. Better than a confident guess.</td></tr>
     <tr><td><b>Held-out</b></td><td>Complaints kept aside, written in different words from the training ones, and read once after everything was frozen.</td></tr>
     <tr><td><b>Section 75</b></td><td>Consumer Credit Act 1974, s. 75: when a single item costing over one hundred pounds and up to thirty thousand pounds is paid for by credit card, the card issuer can be liable too. A classic angle that gets missed.</td></tr>
@@ -184,7 +190,7 @@ footer p+p{margin-top:6px}
   <ul>
     <li>It does not give legal advice, decide anything, file anything or send anything. A qualified human reviews it and owns any use of it.</li>
     <li>It does not cite anything outside its verified table, and it does not compute a date any other way than the library's.</li>
-    <li>It does not guess a missing fact. It abstains and asks for it.</li>
+    <li>It does not guess a missing fact the answer depends on. It abstains and asks for it. (Its one-line summary can still name an item the client never mentioned; the audit under the result counts how often.)</li>
     <li>It covers one narrow area: consumer claims about goods, services and online purchases in England and Wales, under the provisions in its table. It is not a general legal tool.</li>
   </ul>
 </section>
@@ -198,7 +204,7 @@ footer p+p{margin-top:6px}
     <li>Freeze it, then judge it once on held-out intakes against your current first screen. The fee is due only if it beat it.</li>
     <li>Run it beside your team, deciding nothing, until the reviewers trust it on what it does.</li>
   </ol>
-  <p class="muted">What it runs on: a laptop CPU, as here. Training the adapter took <span id="t-train">…</span>; drafting one memo took about <span id="t-memo">…</span> on the same CPU, which other work shared for part of the run. No GPU, no cloud service.</p>
+  <p class="muted">What it runs on: a laptop CPU, as here. Training the adapter took <span id="t-train">…</span>; drafting one memo took about <span id="t-memotime">…</span> on the same CPU, which other work shared for part of the run. No GPU, no cloud service.</p>
 </section>
 <section id="paper">
   <h2>White paper: let the small model read and the law reason</h2>
@@ -220,7 +226,7 @@ footer p+p{margin-top:6px}
     <thead><tr><th>Who</th><th>What this means for them</th></tr></thead>
     <tr><td>Managing partner</td><td>A first screen that shows its reasoning, cites only verified law and says when it cannot tell, on hardware you own.</td></tr>
     <tr><td>Finance</td><td>No per-seat licence and no per-call fee. The cost case below uses your own numbers.</td></tr>
-    <tr><td>Risk and compliance</td><td>Nothing leaves the building; nothing ungrounded reaches the memo; a qualified human reviews every output and owns it.</td></tr>
+    <tr><td>Risk and compliance</td><td>Nothing leaves the building; no ungrounded law, remedy or date reaches the memo; a qualified human reviews every output, including the model's one-line summary, and owns it.</td></tr>
     <tr><td>IT</td><td>A base model, a small adapter file and a few scripts. It runs offline, with the network disabled.</td></tr>
   </table></div>
   <h3>The cost case for one intake</h3>
