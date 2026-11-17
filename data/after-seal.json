@@ -1,5 +1,5 @@
 {
  "what": "the post-seal records the page shows under 'Measured after the seal'; null = not in yet. None is read by the sealed record.",
  "summaryAudit": "data/summary-audit.json",
- "rawFair": null
+ "rawFair": "data/raw-fair.json"
 }

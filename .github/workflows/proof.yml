@@ -16,6 +16,8 @@ jobs:
         run: node tools/eval.mjs --check
       - name: after the seal - the memo summary audit re-derived byte for byte from the committed drafts
         run: node tools/summary-audit.mjs --check
+      - name: the fairer 7B baselines re-derive from the committed drafts
+        run: node tools/raw-fair.mjs --check
       # Pinned. An unpinned gate is a gate somebody else can change.
       - name: witness - every mutant of every kernel must die, and the committed counts must re-derive
         run: |

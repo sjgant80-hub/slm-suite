@@ -1,0 +1,62 @@
+{
+ "what": "post-seal fairer baselines for qwen2.5:7b on the 80 held-out complaints (tools/raw-fair.mjs); never read by the sealed record",
+ "options": {
+  "temperature": 0,
+  "seed": 7,
+  "num_predict": 600,
+  "num_ctx": 4096
+ },
+ "stackCorrect": 69,
+ "n": 80,
+ "baselines": {
+  "sealed": {
+   "correct": 1,
+   "parsed": 55,
+   "empty": 25,
+   "outsideTable": 111,
+   "notApplicable": 7,
+   "stackMinusThisLow": 0.775,
+   "correctIds": [
+    "held-62"
+   ]
+  },
+  "nogrammar": {
+   "correct": 1,
+   "parsed": 46,
+   "empty": 1,
+   "outsideTable": 91,
+   "notApplicable": 7,
+   "stackMinusThisLow": 0.775,
+   "correctIds": [
+    "held-62"
+   ]
+  },
+  "withlaw": {
+   "correct": 0,
+   "parsed": 70,
+   "empty": 2,
+   "outsideTable": 36,
+   "notApplicable": 142,
+   "stackMinusThisLow": 0.7875,
+   "correctIds": []
+  }
+ },
+ "runs": {
+  "nogrammar": {
+   "errors": 1,
+   "doneReasons": [
+    null,
+    "stop"
+   ],
+   "medianSeconds": 114
+  },
+  "withlaw": {
+   "errors": 2,
+   "doneReasons": [
+    null,
+    "stop"
+   ],
+   "medianSeconds": 157
+  }
+ }
+}
